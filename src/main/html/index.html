@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<title>SabSpotComment</title>
+	<link rel="stylesheet" href="/static/css/reset.css" />
+	<link rel="stylesheet" href="/static/css/style.css" />
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+	<link rel="icon" href="/static/images/routemaster.png" type="image/png" />
+</head>
+<body>
+<div id="main">
+	<h1>SabSpotComment<em>(nanoHTTPD edition)</em></h1>
+
+	<p><strong>Congratulations!!</strong> - The Route Master Server is up and running!</p>
+
+	<p>The following page are examples of rest routing in action, in order of appearance:</p>
+	<ol>
+		<li><span class="code">/rest/routes/</span></li>
+		<li><span class="code">/rest/cache/</span></li>
+		<li><span class="code">/mimetypes/</span></li>
+		<li><span class="code">/simple/%method%/</span></li>
+	</ol>
+
+	<h2>Registered Routes</h2>
+
+	<p>Below is list of all registered routes and the <span class="code">Routable</span> that is registered against them.</p>
+
+	<div id="routes">
+	</div>
+
+	<h2>Cache</h2>
+	<p>Below is an list of all of the cached resources and the <span class="code">Routable</span> that is responsible for serving them up.</p>
+
+	<div id="cache">
+	</div>
+
+	<h2>Registered Mime Types</h2>
+	<p>Below is an list of all of the mime types that are registered with the <span class="code">StaticFileServant</span></p>
+
+	<div id="mimetypes">
+	</div>
+
+
+	<h2>Simple Rest Servant Responses</h2>
+	<p>Below is an an example of all of the RESTful methods and their responses from the <span class="code">SimpleRestServant</span></p>
+
+	<div>
+		<p id="simple-GET"></p>
+	</div>
+	<div>
+		<p id="simple-PUT"></p>
+	</div>
+	<div>
+		<p id="simple-POST"></p>
+	</div>
+	<div>
+		<p id="simple-DELETE"></p>
+	</div>
+
+	<div id="footer">
+		<p>powered by: synapticloop - sabspotcomment - routemaster - nanohttpd</p>
+	</div>
+
+</div>
+
+<script>
+	$(document).ready(function() {
+		$.ajax({
+			url: "/rest/routes/"
+		}).done(function(data) {
+			$("#routes").append(data);
+		});
+
+		$.ajax({
+			url: "/rest/cache/"
+		}).done(function(data) {
+			$("#cache").append(data);
+		});
+
+		$.ajax({
+			url: "/mimetypes/"
+		}).done(function(data) {
+			$("#mimetypes").append(data);
+		});
+
+		$.ajax({
+			url: "/simple/mapped/unmapped/",
+			type: "DELETE"
+		}).done(function(data) {
+			$("#simple-DELETE").empty().append(data);
+		});
+
+		$.ajax({
+			url: "/simple/mapped/unmapped/",
+			type: "GET" 
+		}).done(function(data) {
+			$("#simple-GET").empty().append(data);
+		});
+
+		$.ajax({
+			url: "/simple/mapped/unmapped/",
+			type: "PUT" 
+		}).done(function(data) {
+			$("#simple-PUT").empty().append(data);
+		});
+
+		$.ajax({
+			url: "/simple/mapped/unmapped/",
+			type: "POST"
+		}).done(function(data) {
+			$("#simple-POST").empty().append(data);
+		});
+
+	});
+</script>
+</body>
+</html>

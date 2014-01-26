@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<title>SabSpotComment - Home</title>
+	<link rel="stylesheet" href="/static/css/reset.css" />
+	<link rel="stylesheet" href="/static/css/style.css" />
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+	<link rel="icon" href="/static/images/routemaster.png" type="image/png" />
+</head>
+<body>
+<div id="main">
+	<h1>SabSpotComment<em> HOME</em></h1>
+	<ul class="nav">
+		<li class="current"><a href="/">home</a>
+		<li><a href="/admin/">admin</a>
+	</ul>
+
+	{set fn:fmtDate[lastCompletedTime, 'yyyy-MM-dd HH:mm:ss z'] as formattedDate}
+	<h2>SabNzbd server - last download completed at {formattedDate}</h2>
+
+	<h3>Comments:</h3>
+	{loop downloads as download}
+		{if downloadStatus.first}
+			<ol>
+		{endif}
+		<li>
+			{if download.ignored}
+				No comment entered for '{download.name}' as it was not downloaded from your newznab url.
+			{else}
+				[SSC] 
+				{set fn:fmtDate[download.completedTime, 'yyyy-MM-dd HH:mm:ss z'] as formattedDate}
+				DOWNLOAD {if download.isFailed}FAILED{else}SUCCESS{endif} at {formattedDate}.<br />{if download.isFailed}Message was '{download.failMessage}'<br />{endif}
+				  Servers used: 
+				{loop newznabServers as newznabServer}
+					{newznabServer}
+					{if !newznabServerStatus.last}, {endif}
+				{endloop}.
+			{endif}
+		</li>
+		{if downloadStatus.last}
+			</ol>
+		{endif}
+	{endloop}
+	<div id="footer">
+		<p>powered by: synapticloop - sabspotcomment - routemaster - nanohttpd</p>
+	</div>
+</div>
+</body>
+</html>

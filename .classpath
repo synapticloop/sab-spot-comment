@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src/main/java"/>
+	<classpathentry kind="src" path="src/main/html"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="lib/templar.jar" sourcepath="/templar/src/main/java"/>
+	<classpathentry kind="lib" path="lib/routemaster.jar" sourcepath="/routemaster/src/main/java"/>
+	<classpathentry kind="output" path="build-eclipse"/>
+</classpath>

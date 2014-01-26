@@ -1,0 +1,6 @@
+
+CVS/
+.cvsignore
+build/
+build-eclipse/
+setup.properties

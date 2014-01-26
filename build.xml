@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="sab-spot-comment" default="help">
+	<property name="build.dir" value="build" />
+	<property name="dist.dir" value="dist" />
+
+	<property name="src.dir" value="src/main/java" />
+
+	<target name="download-dependencies" description="download the dependencies">
+		<get src="https://raw.github.com/synapticloop/routemaster/master/dist/routemaster.jar" dest="lib" />
+	</target>
+
+	<target name="init">
+		<mkdir dir="${build.dir}" />
+		<mkdir dir="${dist.dir}" />
+	</target>
+
+	<path id="lib-path">
+		<fileset dir="lib">
+			<include name="*.jar" />
+		</fileset>
+	</path>
+
+	<target name="dist" depends="init">
+		<javac srcdir="${src.dir}" destdir="${build.dir}" debug="on" classpathref="lib-path" />
+
+		<jar destfile="${dist.dir}/${ant.project.name}.jar" manifest="src/main/META-INF/manifest.mf">
+			<fileset dir="${build.dir}">
+				<include name="**/*.class"/>
+			</fileset>
+		</jar>
+	</target>
+
+	<target name="help" description="hopefully helpful help">
+		<echo>
+type:
+	ant -p
+to see a complete list of ant targets
+	</echo>
+	</target>
+</project>
