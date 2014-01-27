@@ -4,6 +4,7 @@
 	<property name="dist.dir" value="dist" />
 
 	<property name="src.dir" value="src/main/java" />
+	<property name="src.html.dir" value="src/main/html" />
 
 	<target name="download-dependencies" description="download the dependencies">
 		<get src="https://raw.github.com/synapticloop/routemaster/master/dist/routemaster.jar" dest="lib" />
@@ -21,11 +22,20 @@
 	</path>
 
 	<target name="dist" depends="init">
-		<javac srcdir="${src.dir}" destdir="${build.dir}" debug="on" classpathref="lib-path" />
-
+		<javac srcdir="${src.dir}" destdir="${build.dir}" debug="on" classpathref="lib-path" includeantruntime="false" />
+		
+		<unjar src="lib/templar.jar" dest="${build.dir}" />
+		<unjar src="lib/routemaster.jar" dest="${build.dir}" />
 		<jar destfile="${dist.dir}/${ant.project.name}.jar" manifest="src/main/META-INF/manifest.mf">
 			<fileset dir="${build.dir}">
 				<include name="**/*.class"/>
+			</fileset>
+			<fileset dir="${src.dir}">
+				<include name="**/*.properties"/>
+				<include name="**/*.templar"/>
+			</fileset>
+			<fileset dir="${src.html.dir}">
+				<include name="**/*.*"/>
 			</fileset>
 		</jar>
 	</target>
