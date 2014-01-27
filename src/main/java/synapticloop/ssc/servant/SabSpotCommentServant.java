@@ -37,8 +37,19 @@ public class SabSpotCommentServant extends RestRoutable {
 		SetupManager setupManager = SetupManager.INSTANCE;
 		long maxCompletedTime = 0l;
 		if(!setupManager.getIsSetup()) {
-			// not setup - need to do the setup
-			return(HttpUtils.redirectResponse("/admin/"));
+			try {
+				TemplarContext templarContext = new TemplarContext();
+				Parser parser = new Parser(this.getClass().getResourceAsStream("/synapticloop/ssc/template/not-setup.templar"));
+				return(HttpUtils.okResponse(NanoHTTPD.MIME_HTML, parser.render(templarContext)));
+			} catch (ParseException pex) {
+				// TODO Auto-generated catch block
+				pex.printStackTrace();
+				return(null);
+			} catch (RenderException rex) {
+				// TODO Auto-generated catch block
+				rex.printStackTrace();
+				return(null);
+			}
 		} else {
 			// set up and ready to go
 
