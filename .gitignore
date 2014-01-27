@@ -5,3 +5,5 @@ build/
 build-eclipse/
 setup.properties
 sabspotcomment.properties
+
+sab-spot-comment.properties

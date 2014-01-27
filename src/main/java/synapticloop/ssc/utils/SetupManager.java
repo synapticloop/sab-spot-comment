@@ -162,7 +162,7 @@ public class SetupManager {
 	}
 
 	public boolean getIsDemo() { return(isDemo); }
-	public void setIsDemo() { isDemo = isDemo; }
+	public void setIsDemo(boolean isDemo) { this.isDemo = isDemo; }
 
 	public boolean getIsSetup() { return(isSabNzbSetup && isNewznabSetup); }
 
@@ -170,34 +170,34 @@ public class SetupManager {
 	public boolean getIsSabNzbSetup() { return(isSabNzbSetup); }
 
 	public String getSabNzbUrl() { return cleanNull(sabNzbUrl); }
-	public void setSabNzbUrl(String sabNzbUrl) { sabNzbUrl = cleanNull(sabNzbUrl); }
+	public void setSabNzbUrl(String sabNzbUrl) { this.sabNzbUrl = cleanNull(sabNzbUrl); }
 	public String getSabNzbApiKey() { return cleanNull(sabNzbApiKey); }
-	public void setSabNzbApiKey(String sabNzbApiKey) { sabNzbApiKey = cleanNull(sabNzbApiKey); }
+	public void setSabNzbApiKey(String sabNzbApiKey) { this.sabNzbApiKey = cleanNull(sabNzbApiKey); }
 	public String getSabNzbErrorMessage() { return cleanNull(sabNzbErrorMessage); }
 
 	// NEWZNAB setup stuff
 	public boolean getIsNewznabSetup() { return(isNewznabSetup); }
 
 	public String getNewznabUrl() { return cleanNull(newznabUrl); }
-	public void setNewznabUrl(String newznabUrl) { newznabUrl = cleanNull(newznabUrl); }
+	public void setNewznabUrl(String newznabUrl) { this.newznabUrl = cleanNull(newznabUrl); }
 	public String getNewznabApiKey() { return cleanNull(newznabApiKey); }
-	public void setNewznabApiKey(String newznabApiKey) { newznabApiKey = cleanNull(newznabApiKey); }
+	public void setNewznabApiKey(String newznabApiKey) { this.newznabApiKey = cleanNull(newznabApiKey); }
 	public String getNewznabErrorMessage() { return cleanNull(newznabErrorMessage); }
 
 	public long getLastCompletedTime() { return lastCompletedTime; }
-	public void setLastCompletedTime(long lastCompletedTime) { lastCompletedTime = lastCompletedTime; }
+	public void setLastCompletedTime(long lastCompletedTime) { this.lastCompletedTime = lastCompletedTime; }
 
-	public void setNumSuccessHours(int numSuccessHours) { if(numSuccessHours >= 0) { numSuccessHours = numSuccessHours; } }
+	public void setNumSuccessHours(int numSuccessHours) { if(numSuccessHours >= 0) { this.numSuccessHours = numSuccessHours; } }
 	public int getNumSuccessHours() { return(numSuccessHours); }
-	public void setNumSuccessComments(int numSuccessComments) { if(numSuccessComments >= 0) { numSuccessComments = numSuccessComments; } }
+	public void setNumSuccessComments(int numSuccessComments) { if(numSuccessComments >= 0) { this.numSuccessComments = numSuccessComments; } }
 	public int getNumSuccessComments() { return(numSuccessComments); }
-	public void setNumFailureHours(int numFailureHours) { if(numFailureHours >= 0) { numFailureHours = numFailureHours; } }
+	public void setNumFailureHours(int numFailureHours) { if(numFailureHours >= 0) { this.numFailureHours = numFailureHours; } }
 	public int getNumFailureHours() { return(numFailureHours); }
-	public void setNumFailureComments(int numFailureComments) { if(numFailureComments >= 0) { numFailureComments = numFailureComments; } }
+	public void setNumFailureComments(int numFailureComments) { if(numFailureComments >= 0) { this.numFailureComments = numFailureComments; } }
 	public int getNumFailureComments() { return(numFailureComments); }
 
 	public ArrayList<String> getNewznabServers() { return(newznabServers); }
-	public void setCommentFormat(String commentFormat) { commentFormat = commentFormat; }
+	public void setCommentFormat(String commentFormat) { this.commentFormat = commentFormat; }
 	public String getCommentFormat() { return(commentFormat); }
 
 	private String cleanNull(String value) {

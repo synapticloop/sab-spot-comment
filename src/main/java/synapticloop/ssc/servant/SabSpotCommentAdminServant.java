@@ -57,7 +57,7 @@ public class SabSpotCommentAdminServant extends Routable {
 
 	private void parseParameters(IHTTPSession session) {
 		Map<String, String> parms = session.getParms();
-		
+
 		if(parms.containsKey("submit")) {
 			// some data has been submitted
 			SetupManager setupManager = SetupManager.INSTANCE;
