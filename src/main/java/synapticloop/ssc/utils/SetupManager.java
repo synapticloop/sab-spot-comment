@@ -172,13 +172,13 @@ public class SetupManager {
 	public static long getLastCompletedTime() { return lastCompletedTime; }
 	public static void setLastCompletedTime(long lastCompletedTime) { SetupManager.lastCompletedTime = lastCompletedTime; }
 
-	public static void setNumSuccessHours(int numSuccessHours) { SetupManager.numSuccessHours = numSuccessHours;}
+	public static void setNumSuccessHours(int numSuccessHours) { if(numSuccessHours >= 0) { SetupManager.numSuccessHours = numSuccessHours; } }
 	public static int getNumSuccessHours() { return(numSuccessHours); }
-	public static void setNumSuccessComments(int numSuccessComments) { SetupManager.numSuccessComments = numSuccessComments;}
+	public static void setNumSuccessComments(int numSuccessComments) { if(numSuccessComments >= 0) { SetupManager.numSuccessComments = numSuccessComments; } }
 	public static int getNumSuccessComments() { return(numSuccessComments); }
-	public static void setNumFailureHours(int numFailureHours) { SetupManager.numFailureHours = numFailureHours;}
+	public static void setNumFailureHours(int numFailureHours) { if(numFailureHours >= 0) { SetupManager.numFailureHours = numFailureHours; } }
 	public static int getNumFailureHours() { return(numFailureHours); }
-	public static void setNumFailureComments(int numFailureComments) { SetupManager.numFailureComments = numFailureComments;}
+	public static void setNumFailureComments(int numFailureComments) { if(numFailureComments >= 0) { SetupManager.numFailureComments = numFailureComments; } }
 	public static int getNumFailureComments() { return(numFailureComments); }
 
 	public static ArrayList<String> getNewznabServers() { return(newznabServers); }
