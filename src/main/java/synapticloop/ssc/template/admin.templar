@@ -35,14 +35,18 @@
 				<p class="error">{sabNzbErrorMessage}</p>
 			{endif}
 
-			SABNZB URL ------&gt;<input type="text" name="sabNzbUrl" id="sabNzbUrl" value="{sabNzbUrl}" width="40"/><br />
-			SABNZB API KEY --&gt;<input type="text" name="sabNzbApiKey" id="sabNzbApiKey" value="{sabNzbApiKey}" /><br />
+			SABNZB URL ------&gt;<input type="text" name="sabNzbUrl" id="sabNzbUrl" value="{sabNzbUrl}" size="40" /><br />
+			SABNZB API KEY --&gt;<input type="text" name="sabNzbApiKey" id="sabNzbApiKey" value="{sabNzbApiKey}" size="40" /><br />
 
-			<h3>SabNzbd registered news hosts:</h3>
 			{loop newznabServers as newznabServer}
-				{if newznabServerStatus.first}<ol>{endif}
-				<li>{newznabServer}</li>
-				{if newznabServerStatus.last}</ol>{endif}
+				{if newznabServerStatus.first}
+					<p class="ok">SabNzbd registered news hosts:</p>
+					<ol>
+				{endif}
+				<li class="ok">{newznabServer}</li>
+				{if newznabServerStatus.last}
+					</ol>
+				{endif}
 			{endloop}
 		</div>
 
@@ -60,9 +64,9 @@
 			{endif}
 
 			<p>Enter your newznab url, this should be of the form <em>https://newznab.example.com</em></p>
-			NEWZNAB URL -----&gt;<input type="text" name="newznabUrl" id="newznabUrl" value="{newznabUrl}" /><br />
+			NEWZNAB URL -----&gt;<input type="text" name="newznabUrl" id="newznabUrl" value="{newznabUrl}" size="40" /><br />
 			<p>Enter your newznab api key.  Go to your user account and it will be listed under <em>Site Api/Rss Key</em></p>
-			NEWZNAB API KEY -&gt;<input type="text" name="newznabApiKey" id="newznabApiKey" value="{newznabApiKey}" /><br />
+			NEWZNAB API KEY -&gt;<input type="text" name="newznabApiKey" id="newznabApiKey" value="{newznabApiKey}" size="40" /><br />
 		</div>
 
 		<h2>Timings</h2>
