@@ -6,7 +6,7 @@
 	<property name="src.dir" value="src/main/java" />
 	<property name="src.html.dir" value="src/main/html" />
 
-	<target name="download-dependencies" description="download the dependencies">
+	<target name="update-dependencies" description="update the dependencies">
 		<get src="https://raw.github.com/synapticloop/routemaster/master/dist/routemaster.jar" dest="lib" />
 	</target>
 
@@ -15,13 +15,18 @@
 		<mkdir dir="${dist.dir}" />
 	</target>
 
+	<target name="clean">
+		<delete dir="${build.dir}" />
+		<delete dir="${dist.dir}" />
+	</target>
+
 	<path id="lib-path">
 		<fileset dir="lib">
 			<include name="*.jar" />
 		</fileset>
 	</path>
 
-	<target name="dist" depends="init">
+	<target name="dist" depends="clean,init">
 		<javac srcdir="${src.dir}" destdir="${build.dir}" debug="on" classpathref="lib-path" includeantruntime="false" />
 		
 		<unjar src="lib/templar.jar" dest="${build.dir}" />

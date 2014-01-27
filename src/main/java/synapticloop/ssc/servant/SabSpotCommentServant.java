@@ -34,13 +34,15 @@ public class SabSpotCommentServant extends RestRoutable {
 
 	@Override
 	public Response doGet(File rootDir, IHTTPSession httpSession, HashMap<String, String> restParams, String unmappedParams) {
+		SetupManager setupManager = SetupManager.INSTANCE;
 		long maxCompletedTime = 0l;
-		if(!SetupManager.getIsSetup()) {
+		if(!setupManager.getIsSetup()) {
 			// not setup - need to do the setup
 			return(HttpUtils.redirectResponse("/admin/"));
 		} else {
 			// set up and ready to go
-			String content = ConnectionHelper.getUrl(SetupManager.getSabNzbUrl() + "/api/?apikey=" + SetupManager.getSabNzbApiKey() + "&mode=history&start=0&limit=20&output=json");
+
+			String content = ConnectionHelper.getUrl(setupManager.getSabNzbUrl() + "/api/?apikey=" + setupManager.getSabNzbApiKey() + "&mode=history&start=0&limit=20&output=json");
 			try {
 				JSONObject jsonObject = new JSONObject(content);
 				JSONObject history = jsonObject.getJSONObject("history");
@@ -56,7 +58,7 @@ public class SabSpotCommentServant extends RestRoutable {
 					boolean ignored = true;
 					String guid = null;
 
-					if(url.startsWith(SetupManager.getNewznabUrl().toLowerCase())) {
+					if(url.startsWith(setupManager.getNewznabUrl().toLowerCase())) {
 						ignored = false;
 						// now grab the nzbid
 						int indexOfGetNzb = url.indexOf("/getnzb/") + "/getnzb/".length();
@@ -76,13 +78,13 @@ public class SabSpotCommentServant extends RestRoutable {
 				// TODO - do something
 			}
 
-			SetupManager.setLastCompletedTime(maxCompletedTime * 1000);
+			setupManager.setLastCompletedTime(maxCompletedTime * 1000);
 
 			TemplarContext templarContext = new TemplarContext();
 			templarContext.add("downloads", downloads);
-			templarContext.add("newznabServers", SetupManager.getNewznabServers());
-			templarContext.add("lastCompletedTime", SetupManager.getLastCompletedTime());
-			SetupManager.saveProperties();
+			templarContext.add("setupManager", setupManager);
+
+			setupManager.saveProperties();
 
 			try {
 				Parser parser = new Parser(this.getClass().getResourceAsStream("/synapticloop/ssc/template/home.templar"));
