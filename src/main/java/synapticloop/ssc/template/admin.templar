@@ -92,6 +92,59 @@
 			<p>Number of failure comments on the post that a comment won't be committed</p>
 			FAILURE NUMBER --&gt;<input type="text" name="numFailureComments" id="numFailureComments" value="{numFailureComments}" size="4" /><br />
 
+		</div>
+
+		<h2>Comment format</h2>
+
+		<div class="section">
+
+			<p class="info"><strong>The format for the comment that is posted</strong></p>
+
+			<p>
+				You can use the following replacement tokens:
+			</p>
+
+			<dl>
+				<dt>%RESULT%</dt>
+					<dd>Either '<em>FAILED</em>' or '<em>SUCCESS</em>'</dd>
+				<dt>%DATE%</dt>
+					<dd>The formatted date</dd>
+				<dt>%FAILED(conditional failure message)%</dt>
+					<dd>Will print out '<em>conditional failure message</em>' only if the download failed</dd>
+				<dt>%SUCCESS(conditional success message)%</dt>
+					<dd>Will print out '<em>conditional success message</em>' only if the download succeeded</dd>
+				<dt>%FAILED_MESSAGE%</dt>
+					<dd>Will be output if the download failed.</dd>
+				<dt>%SERVERS%</dt>
+					<dd>The servers that are registered with sabnzbd</dd>
+			</dl>
+
+			<p>
+				The default comment format is:
+			</p>
+
+			<pre class="section">
+				[SSC] DOWNLOAD %RESULT% at %DATE%.{\n}
+				%FAILED(Message was ')%%FAILED_MESSAGE%%FAILED(')%{\n}
+				Servers used: %SERVERS%
+			</pre>
+			<br />
+
+			COMMENT FORMAT --&gt;<br />
+			<textarea name="commentFormat" id="commentFormat" rows="4" cols="50">{commentFormat}</textarea><br />
+
+			<p class="info">Example of a failed comment</p>
+
+			<pre class="section">
+				{commentFormat}
+			</pre>
+
+			<p class="info">Example of a success comment</p>
+
+			<pre class="section">
+				{commentFormat}
+			</pre>
+
 			<input type="submit" name="submit" value="submit" />
 		</div>
 	</form>

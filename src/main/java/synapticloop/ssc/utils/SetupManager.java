@@ -39,6 +39,9 @@ public class SetupManager {
 	private static int numFailureHours = 24;
 	private static int numFailureComments = 5;
 
+	// comment format
+	private static String commentFormat = "[SSC] DOWNLOAD %RESULT% at %DATE%.\n%FAILED(Message was ')%%FAILED_MESSAGE%%FAILED(')%\nServers used: %SERVERS%";
+
 	static {
 		// load up the properties if they exist
 		try {
@@ -49,6 +52,8 @@ public class SetupManager {
 			newznabUrl = properties.getProperty("newznabUrl");
 			newznabApiKey = properties.getProperty("newznabApiKey");
 			newznabErrorMessage = properties.getProperty("newznabErrorMessage");
+			commentFormat = properties.getProperty("commentFormat");
+
 			String lastCompletedTimeString = properties.getProperty("lastCompletedTime");
 			try { lastCompletedTime = Long.parseLong(lastCompletedTimeString); } catch(NumberFormatException nfex) { }
 
@@ -141,6 +146,8 @@ public class SetupManager {
 			properties.put("numSuccessComments", numSuccessComments + "");
 			properties.put("numFailureHours", numFailureHours + "");
 			properties.put("numFailureComments", numFailureComments + "");
+			properties.put("commentFormat", commentFormat);
+
 			properties.store(new FileOutputStream(new File(SETUP_PROPERTIES)), " --- sab spot comment properties file ---");
 		} catch (FileNotFoundException fnfex) {
 			fnfex.printStackTrace();
@@ -182,7 +189,8 @@ public class SetupManager {
 	public static int getNumFailureComments() { return(numFailureComments); }
 
 	public static ArrayList<String> getNewznabServers() { return(newznabServers); }
-
+	public static void setCommentFormat(String commentFormat) { SetupManager.commentFormat = commentFormat; }
+	public static String getCommentFormat() { return(commentFormat); }
 
 	private static String cleanNull(String value) {
 		if(null == value) {

@@ -53,6 +53,7 @@ public class SabSpotCommentAdminServant extends Routable {
 		templarContext.add("numSuccessComments", SetupManager.getNumSuccessComments());
 		templarContext.add("numFailureHours", SetupManager.getNumFailureHours());
 		templarContext.add("numFailureComments", SetupManager.getNumFailureComments());
+		templarContext.add("commentFormat", SetupManager.getCommentFormat());
 
 		try {
 			Parser parser = new Parser(this.getClass().getResourceAsStream("/synapticloop/ssc/template/admin.templar"));
@@ -77,6 +78,7 @@ public class SabSpotCommentAdminServant extends Routable {
 			SetupManager.setNewznabUrl(parms.get("newznabUrl"));
 			SetupManager.setSabNzbApiKey(parms.get("sabNzbApiKey"));
 			SetupManager.setSabNzbUrl(parms.get("sabNzbUrl"));
+			SetupManager.setCommentFormat(parms.get("commentFormat"));
 
 			String numSuccessHoursString = parms.get("numSuccessHours");
 			try { SetupManager.setNumSuccessHours(Integer.parseInt(numSuccessHoursString)); } catch(NumberFormatException nfex) { }
