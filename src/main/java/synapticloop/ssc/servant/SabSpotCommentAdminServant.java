@@ -38,23 +38,8 @@ public class SabSpotCommentAdminServant extends Routable {
 		parseParameters(session);
 		// not setup yet - need to run through the parameters
 		TemplarContext templarContext = new TemplarContext();
-		templarContext.add("sabNzbUrl", SetupManager.getSabNzbUrl());
-		templarContext.add("sabNzbApiKey", SetupManager.getSabNzbApiKey());
-		templarContext.add("isSabNzbSetup", SetupManager.getIsSabNzbSetup());
-		templarContext.add("sabNzbErrorMessage", SetupManager.getSabNzbErrorMessage());
-		templarContext.add("newznabServers", SetupManager.getNewznabServers());
 
-		templarContext.add("newznabUrl", SetupManager.getNewznabUrl());
-		templarContext.add("newznabApiKey", SetupManager.getNewznabApiKey());
-		templarContext.add("isNewznabSetup", SetupManager.getIsNewznabSetup());
-		templarContext.add("newznabErrorMessage", SetupManager.getNewznabErrorMessage());
-
-		templarContext.add("numSuccessHours", SetupManager.getNumSuccessHours());
-		templarContext.add("numSuccessComments", SetupManager.getNumSuccessComments());
-		templarContext.add("numFailureHours", SetupManager.getNumFailureHours());
-		templarContext.add("numFailureComments", SetupManager.getNumFailureComments());
-		templarContext.add("commentFormat", SetupManager.getCommentFormat());
-		templarContext.add("isDemo", SetupManager.getIsDemo());
+		templarContext.add("setupManager", SetupManager.INSTANCE);
 
 		try {
 			Parser parser = new Parser(this.getClass().getResourceAsStream("/synapticloop/ssc/template/admin.templar"));

@@ -15,11 +15,11 @@
 		<li><a href="/admin/">&laquo; admin &raquo;</a></li>
 	</ul>
 
-	{set fn:fmtDate[lastCompletedTime, 'yyyy-MM-dd HH:mm:ss z'] as formattedDate}
+	{set fn:fmtDate[setupManager.lastCompletedTime, 'yyyy-MM-dd HH:mm:ss z'] as formattedDate}
 	<h2>SabNzbd server - last download completed at {formattedDate}</h2>
 
 	<h3>Comments:</h3>
-	{loop downloads as download}
+	{loop setupManager.downloads as download}
 		{if downloadStatus.first}
 			<ol>
 		{endif}
@@ -31,7 +31,7 @@
 				{set fn:fmtDate[download.completedTime, 'yyyy-MM-dd HH:mm:ss z'] as formattedDate}
 				DOWNLOAD {if download.isFailed}FAILED{else}SUCCESS{endif} at {formattedDate}.<br />{if download.isFailed}Message was '{download.failMessage}'<br />{endif}
 				  Servers used: 
-				{loop newznabServers as newznabServer}
+				{loop setupManager.newznabServers as newznabServer}
 					{newznabServer}
 					{if !newznabServerStatus.last}, {endif}
 				{endloop}.

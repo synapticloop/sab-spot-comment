@@ -14,37 +14,40 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class SetupManager {
-	private static final String SETUP_PROPERTIES = "setup.properties";
-	private static Properties properties = new Properties();
-	private static long lastCompletedTime = 0l;
+	public final SetupManager INSTANCE = new SetupManager();
+
+	private static final String SETUP_PROPERTIES = "sabspotcomment.properties";
+
+	private Properties properties = new Properties();
+	private long lastCompletedTime = 0l;
 	
-	private static boolean isDemo = true;
+	private boolean isDemo = true;
 
 	// sabnzbd stuff
-	private static boolean isSabNzbSetup = false;
-	private static String sabNzbUrl = "";
-	private static String sabNzbApiKey = "";
-	private static String sabNzbErrorMessage = null;
+	private boolean isSabNzbSetup = false;
+	private String sabNzbUrl = "";
+	private String sabNzbApiKey = "";
+	private String sabNzbErrorMessage = null;
 
-	private static ArrayList<String> newznabServers = new ArrayList<String>();
-	private static HashSet<String> serverCache = new HashSet<String>();
+	private ArrayList<String> newznabServers = new ArrayList<String>();
+	private HashSet<String> serverCache = new HashSet<String>();
 
 	// newznab stuff
-	private static boolean isNewznabSetup = false;
-	private static String newznabUrl = "";
-	private static String newznabApiKey = "";
-	private static String newznabErrorMessage = null;
+	private boolean isNewznabSetup = false;
+	private String newznabUrl = "";
+	private String newznabApiKey = "";
+	private String newznabErrorMessage = null;
 
 	// comment numbers/hours
-	private static int numSuccessHours = 4;
-	private static int numSuccessComments = 5;
-	private static int numFailureHours = 24;
-	private static int numFailureComments = 5;
+	private int numSuccessHours = 4;
+	private int numSuccessComments = 5;
+	private int numFailureHours = 24;
+	private int numFailureComments = 5;
 
 	// comment format
-	private static String commentFormat = "[SSC] DOWNLOAD %RESULT% at %DATE%.\n%FAILED(Message was ')%%FAILED_MESSAGE%%FAILED(')%\nServers used: %SERVERS%";
+	private String commentFormat = "[SSC] DOWNLOAD %RESULT% at %DATE%.\n%FAILED(Message was ')%%FAILED_MESSAGE%%FAILED(')%\nServers used: %SERVERS%";
 
-	static {
+	private SetupManager() {
 		// load up the properties if they exist
 		try {
 			properties.load(new FileInputStream(new File(SETUP_PROPERTIES)));
@@ -74,7 +77,7 @@ public class SetupManager {
 		}
 	}
 	
-	public static void validate() {
+	public void validate() {
 		serverCache.clear();
 		newznabServers.clear();
 
@@ -134,7 +137,7 @@ public class SetupManager {
 		saveProperties();
 	}
 
-	public static void saveProperties() {
+	public void saveProperties() {
 		try {
 			properties.clear();
 			if(null != sabNzbUrl) { properties.put("sabNzbUrl", sabNzbUrl); }
@@ -158,46 +161,46 @@ public class SetupManager {
 		}
 	}
 
-	public static boolean getIsDemo() { return(isDemo); }
-	public static void setIsDemo() { SetupManager.isDemo = isDemo; }
+	public boolean getIsDemo() { return(isDemo); }
+	public void setIsDemo() { isDemo = isDemo; }
 
-	public static boolean getIsSetup() { return(isSabNzbSetup && isNewznabSetup); }
+	public boolean getIsSetup() { return(isSabNzbSetup && isNewznabSetup); }
 
 	// SABNZBD setup stuff
-	public static boolean getIsSabNzbSetup() { return(isSabNzbSetup); }
+	public boolean getIsSabNzbSetup() { return(isSabNzbSetup); }
 
-	public static String getSabNzbUrl() { return cleanNull(sabNzbUrl); }
-	public static void setSabNzbUrl(String sabNzbUrl) { SetupManager.sabNzbUrl = cleanNull(sabNzbUrl); }
-	public static String getSabNzbApiKey() { return cleanNull(sabNzbApiKey); }
-	public static void setSabNzbApiKey(String sabNzbApiKey) { SetupManager.sabNzbApiKey = cleanNull(sabNzbApiKey); }
-	public static String getSabNzbErrorMessage() { return cleanNull(sabNzbErrorMessage); }
+	public String getSabNzbUrl() { return cleanNull(sabNzbUrl); }
+	public void setSabNzbUrl(String sabNzbUrl) { sabNzbUrl = cleanNull(sabNzbUrl); }
+	public String getSabNzbApiKey() { return cleanNull(sabNzbApiKey); }
+	public void setSabNzbApiKey(String sabNzbApiKey) { sabNzbApiKey = cleanNull(sabNzbApiKey); }
+	public String getSabNzbErrorMessage() { return cleanNull(sabNzbErrorMessage); }
 
 	// NEWZNAB setup stuff
-	public static boolean getIsNewznabSetup() { return(isNewznabSetup); }
+	public boolean getIsNewznabSetup() { return(isNewznabSetup); }
 
-	public static String getNewznabUrl() { return cleanNull(newznabUrl); }
-	public static void setNewznabUrl(String newznabUrl) { SetupManager.newznabUrl = cleanNull(newznabUrl); }
-	public static String getNewznabApiKey() { return cleanNull(newznabApiKey); }
-	public static void setNewznabApiKey(String newznabApiKey) { SetupManager.newznabApiKey = cleanNull(newznabApiKey); }
-	public static String getNewznabErrorMessage() { return cleanNull(newznabErrorMessage); }
+	public String getNewznabUrl() { return cleanNull(newznabUrl); }
+	public void setNewznabUrl(String newznabUrl) { newznabUrl = cleanNull(newznabUrl); }
+	public String getNewznabApiKey() { return cleanNull(newznabApiKey); }
+	public void setNewznabApiKey(String newznabApiKey) { newznabApiKey = cleanNull(newznabApiKey); }
+	public String getNewznabErrorMessage() { return cleanNull(newznabErrorMessage); }
 
-	public static long getLastCompletedTime() { return lastCompletedTime; }
-	public static void setLastCompletedTime(long lastCompletedTime) { SetupManager.lastCompletedTime = lastCompletedTime; }
+	public long getLastCompletedTime() { return lastCompletedTime; }
+	public void setLastCompletedTime(long lastCompletedTime) { lastCompletedTime = lastCompletedTime; }
 
-	public static void setNumSuccessHours(int numSuccessHours) { if(numSuccessHours >= 0) { SetupManager.numSuccessHours = numSuccessHours; } }
-	public static int getNumSuccessHours() { return(numSuccessHours); }
-	public static void setNumSuccessComments(int numSuccessComments) { if(numSuccessComments >= 0) { SetupManager.numSuccessComments = numSuccessComments; } }
-	public static int getNumSuccessComments() { return(numSuccessComments); }
-	public static void setNumFailureHours(int numFailureHours) { if(numFailureHours >= 0) { SetupManager.numFailureHours = numFailureHours; } }
-	public static int getNumFailureHours() { return(numFailureHours); }
-	public static void setNumFailureComments(int numFailureComments) { if(numFailureComments >= 0) { SetupManager.numFailureComments = numFailureComments; } }
-	public static int getNumFailureComments() { return(numFailureComments); }
+	public void setNumSuccessHours(int numSuccessHours) { if(numSuccessHours >= 0) { numSuccessHours = numSuccessHours; } }
+	public int getNumSuccessHours() { return(numSuccessHours); }
+	public void setNumSuccessComments(int numSuccessComments) { if(numSuccessComments >= 0) { numSuccessComments = numSuccessComments; } }
+	public int getNumSuccessComments() { return(numSuccessComments); }
+	public void setNumFailureHours(int numFailureHours) { if(numFailureHours >= 0) { numFailureHours = numFailureHours; } }
+	public int getNumFailureHours() { return(numFailureHours); }
+	public void setNumFailureComments(int numFailureComments) { if(numFailureComments >= 0) { numFailureComments = numFailureComments; } }
+	public int getNumFailureComments() { return(numFailureComments); }
 
-	public static ArrayList<String> getNewznabServers() { return(newznabServers); }
-	public static void setCommentFormat(String commentFormat) { SetupManager.commentFormat = commentFormat; }
-	public static String getCommentFormat() { return(commentFormat); }
+	public ArrayList<String> getNewznabServers() { return(newznabServers); }
+	public void setCommentFormat(String commentFormat) { commentFormat = commentFormat; }
+	public String getCommentFormat() { return(commentFormat); }
 
-	private static String cleanNull(String value) {
+	private String cleanNull(String value) {
 		if(null == value) {
 			return("");
 		} else {

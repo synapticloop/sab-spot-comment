@@ -15,24 +15,22 @@
 		<li class="current">&laquo; admin &raquo;</li>
 	</ul>
 
-	{if isSabNzbSetup}
-		{if isNewznabSetup}
-			<h2 class="ok">SabSpotComment is setup and ready to go!</h2>
-		{endif}
+	{if setupManager.isSetup}
+		<h2 class="ok">SabSpotComment is setup and ready to go!</h2>
 	{endif}
 
 	<form method="post">
 
 		<h2>Server mode</h2>
 		<div class="section">
-			{if isDemo}
+			{if setupManager.isDemo}
 				<p class="error"><strong>WARNING: you are running in demo mode</strong></p>
 			{else}
 				<p class="ok"><strong>sabspotcomment is live and serving up messages</strong></p>
 			{endif}
 			SERVER MODE -----&gt;
-			<input type="radio" name="demo" value="true"{if isDemo} checked="checked"{endif}>DEMO
-			<input type="radio" name="demo" value="false"{if !isDemo} checked="checked"{endif}>LIVE
+			<input type="radio" name="demo" value="true"{if setupManager.isDemo} checked="checked"{endif}>DEMO
+			<input type="radio" name="demo" value="false"{if !setupManager.isDemo} checked="checked"{endif}>LIVE
 		</div>
 
 		<h2>SabNzbd server</h2>
@@ -41,20 +39,20 @@
 
 			<p class="info"><strong>Your sabnzbd server information</strong></p>
 
-			{if isSabNzbSetup}
+			{if setupManager.isSabNzbSetup}
 				<p class="ok">sabnzbd: Everything is looking good</p>
 			{else}
 				<p class="warn">sabnzbd: Could not connect, please check the values below:</p>
 			{endif}
 
-			{if fn:notNull[sabNzbErrorMessage]}
-				<p class="error">{sabNzbErrorMessage}</p>
+			{if fn:notNull[setupManager.sabNzbErrorMessage]}
+				<p class="error">{setupManager.sabNzbErrorMessage}</p>
 			{endif}
 
-			SABNZB URL ------&gt;<input type="text" name="sabNzbUrl" id="sabNzbUrl" value="{sabNzbUrl}" size="40" /><br />
-			SABNZB API KEY --&gt;<input type="text" name="sabNzbApiKey" id="sabNzbApiKey" value="{sabNzbApiKey}" size="40" /><br />
+			SABNZB URL ------&gt;<input type="text" name="sabNzbUrl" id="sabNzbUrl" value="{setupManager.sabNzbUrl}" size="40" /><br />
+			SABNZB API KEY --&gt;<input type="text" name="sabNzbApiKey" id="sabNzbApiKey" value="{setupManager.sabNzbApiKey}" size="40" /><br />
 
-			{loop newznabServers as newznabServer}
+			{loop setupManager.newznabServers as newznabServer}
 				{if newznabServerStatus.first}
 					<p class="ok">SabNzbd registered news hosts:</p>
 					<ol>
@@ -71,20 +69,20 @@
 		<div class="section">
 			<p class="info"><strong>Your newznab server information</strong></p>
 
-			{if isNewznabSetup}
+			{if setupManager.isNewznabSetup}
 				<p class="ok">newznab: Everything is looking good</p>
 			{else}
 				<p class="warn">newznab: Could not connect, please check the values below:</p>
 			{endif}
 	
-			{if fn:notNull[newznabErrorMessage]}
-				<p class="error">{newznabErrorMessage}</p>
+			{if fn:notNull[setupManager.newznabErrorMessage]}
+				<p class="error">{setupManager.newznabErrorMessage}</p>
 			{endif}
 
 			<p>Enter your newznab url, this should be of the form <em>https://newznab.example.com</em></p>
-			NEWZNAB URL -----&gt;<input type="text" name="newznabUrl" id="newznabUrl" value="{newznabUrl}" size="40" /><br />
+			NEWZNAB URL -----&gt;<input type="text" name="newznabUrl" id="newznabUrl" value="{setupManager.newznabUrl}" size="40" /><br />
 			<p>Enter your newznab api key.  Go to your user account and it will be listed under <em>Site Api/Rss Key</em></p>
-			NEWZNAB API KEY -&gt;<input type="text" name="newznabApiKey" id="newznabApiKey" value="{newznabApiKey}" size="40" /><br />
+			NEWZNAB API KEY -&gt;<input type="text" name="newznabApiKey" id="newznabApiKey" value="{setupManager.newznabApiKey}" size="40" /><br />
 		</div>
 
 		<h2>Timings</h2>
@@ -94,16 +92,16 @@
 			<p class="info"><strong>Don't post a comment if any of the following conditions are true</strong></p>
 
 			<p>Number of hours after original posting that a success comment won't be committed</p>
-			SUCCESS HOURS ---&gt;<input type="text" name="numSuccessHours" id="numSuccessHours" value="{numSuccessHours}" size="4" /><br />
+			SUCCESS HOURS ---&gt;<input type="text" name="numSuccessHours" id="numSuccessHours" value="{setupManager.numSuccessHours}" size="4" /><br />
 
 			<p>Number of success comments on the post that a success comment won't be committed</p>
-			SUCCESS NUMBER --&gt;<input type="text" name="numSuccessComments" id="numSuccessComments" value="{numSuccessComments}" size="4" /><br />
+			SUCCESS NUMBER --&gt;<input type="text" name="numSuccessComments" id="numSuccessComments" value="{setupManager.numSuccessComments}" size="4" /><br />
 
 			<p>Number of hours after original posting that a comment won't be committed</p>
-			FAILURE HOURS ---&gt;<input type="text" name="numFailureHours" id="numFailureHours" value="{numFailureHours}" size="4" /><br />
+			FAILURE HOURS ---&gt;<input type="text" name="numFailureHours" id="numFailureHours" value="{setupManager.numFailureHours}" size="4" /><br />
 
 			<p>Number of failure comments on the post that a comment won't be committed</p>
-			FAILURE NUMBER --&gt;<input type="text" name="numFailureComments" id="numFailureComments" value="{numFailureComments}" size="4" /><br />
+			FAILURE NUMBER --&gt;<input type="text" name="numFailureComments" id="numFailureComments" value="{setupManager.numFailureComments}" size="4" /><br />
 
 		</div>
 
@@ -143,18 +141,18 @@
 			</dl>
 
 			COMMENT FORMAT --&gt;<br />
-			<textarea name="commentFormat" id="commentFormat" rows="4" cols="50">{commentFormat}</textarea><br />
+			<textarea name="commentFormat" id="commentFormat" rows="4" cols="50">{setupManager.commentFormat}</textarea><br />
 
 			<p class="info">Example of a failed comment</p>
 
 			<pre class="section">
-				{commentFormat}
+				{setupManager.commentFormat}
 			</pre>
 
 			<p class="info">Example of a success comment</p>
 
 			<pre class="section">
-				{commentFormat}
+				{setupManager.commentFormat}
 			</pre>
 
 			<input type="submit" name="submit" value="submit" />
