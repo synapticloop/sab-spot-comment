@@ -22,6 +22,19 @@
 	{endif}
 
 	<form method="post">
+
+		<h2>Server mode</h2>
+		<div class="section">
+			{if isDemo}
+				<p class="error"><strong>WARNING: you are running in demo mode</strong></p>
+			{else}
+				<p class="ok"><strong>sabspotcomment is live and serving up messages</strong></p>
+			{endif}
+			SERVER MODE -----&gt;
+			<input type="radio" name="demo" value="true"{if isDemo} checked="checked"{endif}>DEMO
+			<input type="radio" name="demo" value="false"{if !isDemo} checked="checked"{endif}>LIVE
+		</div>
+
 		<h2>SabNzbd server</h2>
 
 		<div class="section">

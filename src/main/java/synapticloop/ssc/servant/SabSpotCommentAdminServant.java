@@ -54,6 +54,7 @@ public class SabSpotCommentAdminServant extends Routable {
 		templarContext.add("numFailureHours", SetupManager.getNumFailureHours());
 		templarContext.add("numFailureComments", SetupManager.getNumFailureComments());
 		templarContext.add("commentFormat", SetupManager.getCommentFormat());
+		templarContext.add("isDemo", SetupManager.getIsDemo());
 
 		try {
 			Parser parser = new Parser(this.getClass().getResourceAsStream("/synapticloop/ssc/template/admin.templar"));

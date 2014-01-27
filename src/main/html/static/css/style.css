@@ -74,6 +74,14 @@ ol li {
 	padding-left: 7px;
 }
 
+.errorfull {
+	color: #f00;
+	border-left: 3px solid #f00;
+	padding-left: 7px;
+	background-color: #FFE4E1;
+	border-bottom: none;
+}
+
 .warn {
 	color: #f60;
 	border-left: 3px solid #f60;

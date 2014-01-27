@@ -18,6 +18,8 @@ public class SetupManager {
 	private static Properties properties = new Properties();
 	private static long lastCompletedTime = 0l;
 	
+	private static boolean isDemo = true;
+
 	// sabnzbd stuff
 	private static boolean isSabNzbSetup = false;
 	private static String sabNzbUrl = "";
@@ -155,6 +157,9 @@ public class SetupManager {
 			ioex.printStackTrace();
 		}
 	}
+
+	public static boolean getIsDemo() { return(isDemo); }
+	public static void setIsDemo() { SetupManager.isDemo = isDemo; }
 
 	public static boolean getIsSetup() { return(isSabNzbSetup && isNewznabSetup); }
 
