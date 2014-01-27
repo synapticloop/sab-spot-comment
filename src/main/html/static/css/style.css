@@ -61,6 +61,26 @@ ol li {
 	text-align: center;
 }
 
-p.error {
+error {
 	color: #f00;
+}
+
+ul.nav {
+	list-style-type:none;
+	margin:0;
+	padding:0;
+}
+
+ul.nav li {
+	display:inline;
+	margin-right: 12px;
+	padding-bottom: 5px;
+}
+
+ul.nav li a {
+	text-decoration: none;
+}
+
+ul.nav li.current {
+	border-bottom: 3px solid #000;
 }

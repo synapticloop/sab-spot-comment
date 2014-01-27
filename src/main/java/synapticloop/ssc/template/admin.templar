@@ -11,8 +11,8 @@
 <div id="main">
 	<h1>SabSpotComment<em> ADMIN</em></h1>
 	<ul class="nav">
-		<li><a href="/">home</a>
-		<li class="current"><a href="/admin/">admin</a>
+		<li><a href="/">&laquo; home &raquo;</a>
+		<li class="current">&laquo; admin &raquo;</li>
 	</ul>
 
 	{if isSabNzbSetup}
@@ -57,6 +57,10 @@
 
 		NEWZNAB URL -----&gt;<input type="text" name="newznabUrl" id="newznabUrl" value="{newznabUrl}" /><br />
 		NEWZNAB API KEY -&gt;<input type="text" name="newznabApiKey" id="newznabApiKey" value="{newznabApiKey}" /><br />
+
+		<h2>Timings</h2>
+		<p>Don't post a comment if any of the following conditions are true</p>
+
 		<input type="submit" name="submit" value="submit" />
 	</form>
 

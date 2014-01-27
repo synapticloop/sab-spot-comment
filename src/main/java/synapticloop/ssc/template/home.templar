@@ -11,8 +11,8 @@
 <div id="main">
 	<h1>SabSpotComment<em> HOME</em></h1>
 	<ul class="nav">
-		<li class="current"><a href="/">home</a>
-		<li><a href="/admin/">admin</a>
+		<li class="current">&laquo; home &raquo;</li>
+		<li><a href="/admin/">&laquo; admin &raquo;</a></li>
 	</ul>
 
 	{set fn:fmtDate[lastCompletedTime, 'yyyy-MM-dd HH:mm:ss z'] as formattedDate}
