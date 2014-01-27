@@ -101,6 +101,16 @@
 			<p class="info"><strong>The format for the comment that is posted</strong></p>
 
 			<p>
+				The default comment format is:
+			</p>
+
+			<pre class="section">
+				[SSC] DOWNLOAD %RESULT% at %DATE%.{\n}
+				%FAILED(Message was ')%%FAILED_MESSAGE%%FAILED(')%{\n}
+				Servers used: %SERVERS%
+			</pre>
+
+			<p>
 				You can use the following replacement tokens:
 			</p>
 
@@ -118,17 +128,6 @@
 				<dt>%SERVERS%</dt>
 					<dd>The servers that are registered with sabnzbd</dd>
 			</dl>
-
-			<p>
-				The default comment format is:
-			</p>
-
-			<pre class="section">
-				[SSC] DOWNLOAD %RESULT% at %DATE%.{\n}
-				%FAILED(Message was ')%%FAILED_MESSAGE%%FAILED(')%{\n}
-				Servers used: %SERVERS%
-			</pre>
-			<br />
 
 			COMMENT FORMAT --&gt;<br />
 			<textarea name="commentFormat" id="commentFormat" rows="4" cols="50">{commentFormat}</textarea><br />
