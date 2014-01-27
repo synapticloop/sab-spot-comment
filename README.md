@@ -5,6 +5,12 @@ An automatic comment generator integrated with [newznab](http://www.newznab.com/
 
 ## easiest way to get the server up and running
 
+  1. download the [dist/sab-spot-comment.jar](https://github.com/synapticloop/sab-spot-comment/raw/master/dist/sab-spot-comment.jar)
+  1. either (depending on your operating system)
+    1.  double-click the file, or
+    1.  open up a commend prompt/terminal session and run ```java -jar sab-spot-comment.jar```
+  1. point your browser to [http://localhost:5474/](http://localhost:5474/)
+
 
 
 
@@ -17,9 +23,9 @@ you will need the following:
 
 To build it 
 
- 1. ```git clone https://github.com/synapticloop/sab-spot-comment/```
- 1. ```cd sab-spot-comment```
- 1. ```ant dist```
+  1. ```git clone https://github.com/synapticloop/sab-spot-comment/```
+  1. ```cd sab-spot-comment```
+  1. ```ant dist```
 
 This will build a distributable jar in the ```dist``` folder named ```sab-spot-comment.jar```.
 
