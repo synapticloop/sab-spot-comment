@@ -154,13 +154,13 @@
 			<p class="info">Example of a failed comment</p>
 
 			<pre class="section">
-				{setupManager.failedCommentFormat}
+				{dummyFailedComment}
 			</pre>
 
 			<p class="info">Example of a success comment</p>
 
 			<pre class="section">
-				{setupManager.successCommentFormat}
+				{dummySuccessComment}
 			</pre>
 
 			<input type="submit" name="submit" value="submit" />
