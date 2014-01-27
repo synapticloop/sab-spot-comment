@@ -45,31 +45,33 @@ public class SetupManager {
 	private int numFailureComments = 5;
 
 	// comment format
-	private String commentFormat = "[SSC] DOWNLOAD %RESULT% at %DATE%.\n%FAILED(Message was ')%%FAILED_MESSAGE%%FAILED(')%\nServers used: %SERVERS%";
+	private String failedCommentFormat = "[SSC] DOWNLOAD FAILED at %DATE%.\nMessage was'%MESSAGE%'\nServers used: %SERVERS%";
+	private String successCommentFormat = "[SSC] DOWNLOAD SUCCESS at %DATE%.\nServers used: %SERVERS%";
 
 	private SetupManager() {
 		// load up the properties if they exist
 		try {
 			properties.load(new FileInputStream(new File(SETUP_PROPERTIES)));
-			sabNzbUrl = properties.getProperty("sabNzbUrl");
-			sabNzbApiKey = properties.getProperty("sabNzbApiKey");
-			sabNzbErrorMessage = properties.getProperty("sabNzbErrorMessage");
-			newznabUrl = properties.getProperty("newznabUrl");
-			newznabApiKey = properties.getProperty("newznabApiKey");
-			newznabErrorMessage = properties.getProperty("newznabErrorMessage");
-			commentFormat = properties.getProperty("commentFormat");
+			sabNzbUrl = properties.getProperty("sabNzbUrl", sabNzbUrl);
+			sabNzbApiKey = properties.getProperty("sabNzbApiKey", sabNzbApiKey);
+			sabNzbErrorMessage = properties.getProperty("sabNzbErrorMessage", sabNzbErrorMessage);
+			newznabUrl = properties.getProperty("newznabUrl", newznabUrl);
+			newznabApiKey = properties.getProperty("newznabApiKey", newznabApiKey);
+			newznabErrorMessage = properties.getProperty("newznabErrorMessage", newznabErrorMessage);
+			failedCommentFormat = properties.getProperty("failedCommentFormat", failedCommentFormat);
+			successCommentFormat = properties.getProperty("successCommentFormat", successCommentFormat);
 
-			String lastCompletedTimeString = properties.getProperty("lastCompletedTime");
+			String lastCompletedTimeString = properties.getProperty("lastCompletedTime", "0");
 			try { lastCompletedTime = Long.parseLong(lastCompletedTimeString); } catch(NumberFormatException nfex) { }
 
-			String numSuccessHoursString = properties.getProperty("numSuccessHours");
-			try {	numSuccessHours = Integer.parseInt(numSuccessHoursString); } catch(NumberFormatException nfex) { }
-			String numSuccessCommentsString = properties.getProperty("numSuccessComments");
-			try {	numSuccessComments = Integer.parseInt(numSuccessCommentsString); } catch(NumberFormatException nfex) { }
-			String numFailureHoursString = properties.getProperty("numFailureHours");
-			try {	numFailureHours = Integer.parseInt(numFailureHoursString); } catch(NumberFormatException nfex) { }
-			String numFailureCommentsString = properties.getProperty("numFailureComments");
-			try {	numFailureComments = Integer.parseInt(numFailureCommentsString); } catch(NumberFormatException nfex) { }
+			String numSuccessHoursString = properties.getProperty("numSuccessHours", "4");
+			try { numSuccessHours = Integer.parseInt(numSuccessHoursString); } catch(NumberFormatException nfex) { }
+			String numSuccessCommentsString = properties.getProperty("numSuccessComments", "5");
+			try { numSuccessComments = Integer.parseInt(numSuccessCommentsString); } catch(NumberFormatException nfex) { }
+			String numFailureHoursString = properties.getProperty("numFailureHours", "24");
+			try { numFailureHours = Integer.parseInt(numFailureHoursString); } catch(NumberFormatException nfex) { }
+			String numFailureCommentsString = properties.getProperty("numFailureComments", "5");
+			try { numFailureComments = Integer.parseInt(numFailureCommentsString); } catch(NumberFormatException nfex) { }
 
 			validate();
 		} catch (IOException ioex) {
@@ -151,7 +153,8 @@ public class SetupManager {
 			properties.put("numSuccessComments", numSuccessComments + "");
 			properties.put("numFailureHours", numFailureHours + "");
 			properties.put("numFailureComments", numFailureComments + "");
-			properties.put("commentFormat", commentFormat);
+			properties.put("failedCommentFormat", failedCommentFormat);
+			properties.put("successCommentFormat", successCommentFormat);
 
 			properties.store(new FileOutputStream(new File(SETUP_PROPERTIES)), " --- sab spot comment properties file ---");
 		} catch (FileNotFoundException fnfex) {
@@ -196,9 +199,12 @@ public class SetupManager {
 	public void setNumFailureComments(int numFailureComments) { if(numFailureComments >= 0) { this.numFailureComments = numFailureComments; } }
 	public int getNumFailureComments() { return(numFailureComments); }
 
+	public String getFailedCommentFormat() { return failedCommentFormat; }
+	public void setFailedCommentFormat(String failedCommentFormat) { this.failedCommentFormat = failedCommentFormat; }
+	public String getSuccessCommentFormat() { return successCommentFormat; }
+	public void setSuccessCommentFormat(String successCommentFormat) { this.successCommentFormat = successCommentFormat; }
+
 	public ArrayList<String> getNewznabServers() { return(newznabServers); }
-	public void setCommentFormat(String commentFormat) { this.commentFormat = commentFormat; }
-	public String getCommentFormat() { return(commentFormat); }
 
 	private String cleanNull(String value) {
 		if(null == value) {
@@ -207,5 +213,6 @@ public class SetupManager {
 			return(value);
 		}
 	}
+
 
 }

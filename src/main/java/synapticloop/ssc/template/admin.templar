@@ -16,7 +16,7 @@
 	</ul>
 
 	{if setupManager.isSetup}
-		<h2 class="ok">SabSpotComment is setup and ready to go!</h2>
+		<h2>Congratulations!! - SabSpotComment is setup and ready to go!</h2>
 	{endif}
 
 	<form method="post">
@@ -114,12 +114,21 @@
 			<p class="info"><strong>The format for the comment that is posted</strong></p>
 
 			<p>
-				The default comment format is:
+				The default success comment format is:
 			</p>
 
 			<pre class="section">
-				[SSC] DOWNLOAD %RESULT% at %DATE%.{\n}
-				%FAILED(Message was ')%%FAILED_MESSAGE%%FAILED(')%{\n}
+				[SSC] DOWNLOAD SUCCESS at %DATE%.{\n}
+				Servers used: %SERVERS%
+			</pre>
+
+			<p>
+				The default failed comment format is:
+			</p>
+
+			<pre class="section">
+				[SSC] DOWNLOAD FAILED at %DATE%.{\n}
+				Message was '%MESSAGE%'{\n}
 				Servers used: %SERVERS%
 			</pre>
 
@@ -128,33 +137,30 @@
 			</p>
 
 			<dl>
-				<dt>%RESULT%</dt>
-					<dd>Either '<em>FAILED</em>' or '<em>SUCCESS</em>'</dd>
 				<dt>%DATE%</dt>
 					<dd>The formatted date</dd>
-				<dt>%FAILED(conditional failure message)%</dt>
-					<dd>Will print out '<em>conditional failure message</em>' only if the download failed</dd>
-				<dt>%SUCCESS(conditional success message)%</dt>
-					<dd>Will print out '<em>conditional success message</em>' only if the download succeeded</dd>
-				<dt>%FAILED_MESSAGE%</dt>
-					<dd>Will be output if the download failed.</dd>
+				<dt>%MESSAGE%</dt>
+					<dd>(failed downloads only) Will output the failure message.</dd>
 				<dt>%SERVERS%</dt>
 					<dd>The servers that are registered with sabnzbd</dd>
 			</dl>
 
-			COMMENT FORMAT --&gt;<br />
-			<textarea name="commentFormat" id="commentFormat" rows="4" cols="50">{setupManager.commentFormat}</textarea><br />
+			SUCCESS FORMAT --&gt;<br />
+			<textarea name="commentFormat" id="commentFormat" rows="4" cols="50">{setupManager.successCommentFormat}</textarea><br />
+
+			FAILED FORMAT --&gt;<br />
+			<textarea name="commentFormat" id="commentFormat" rows="4" cols="50">{setupManager.failedCommentFormat}</textarea><br />
 
 			<p class="info">Example of a failed comment</p>
 
 			<pre class="section">
-				{setupManager.commentFormat}
+				{setupManager.failedCommentFormat}
 			</pre>
 
 			<p class="info">Example of a success comment</p>
 
 			<pre class="section">
-				{setupManager.commentFormat}
+				{setupManager.successCommentFormat}
 			</pre>
 
 			<input type="submit" name="submit" value="submit" />

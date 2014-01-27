@@ -65,7 +65,8 @@ public class SabSpotCommentAdminServant extends Routable {
 			setupManager.setNewznabUrl(parms.get("newznabUrl"));
 			setupManager.setSabNzbApiKey(parms.get("sabNzbApiKey"));
 			setupManager.setSabNzbUrl(parms.get("sabNzbUrl"));
-			setupManager.setCommentFormat(parms.get("commentFormat"));
+			setupManager.setFailedCommentFormat(parms.get("failedCommentFormat"));
+			setupManager.setSuccessCommentFormat(parms.get("successCommentFormat"));
 
 			String numSuccessHoursString = parms.get("numSuccessHours");
 			try { setupManager.setNumSuccessHours(Integer.parseInt(numSuccessHoursString)); } catch(NumberFormatException nfex) { }
