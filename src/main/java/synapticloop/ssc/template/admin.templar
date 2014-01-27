@@ -146,21 +146,21 @@
 			</dl>
 
 			SUCCESS FORMAT --&gt;<br />
-			<textarea name="commentFormat" id="commentFormat" rows="4" cols="50">{setupManager.successCommentFormat}</textarea><br />
-
-			FAILED FORMAT --&gt;<br />
-			<textarea name="commentFormat" id="commentFormat" rows="4" cols="50">{setupManager.failedCommentFormat}</textarea><br />
-
-			<p class="info">Example of a failed comment</p>
-
-			<pre class="section">
-				{dummyFailedComment}
-			</pre>
+			<textarea name="successCommentFormat" id="successCommentFormat" rows="4" cols="50">{setupManager.successCommentFormat}</textarea><br />
 
 			<p class="info">Example of a success comment</p>
 
 			<pre class="section">
 				{dummySuccessComment}
+			</pre>
+
+			FAILED FORMAT --&gt;<br />
+			<textarea name="failedCommentFormat" id="failedCommentFormat" rows="4" cols="50">{setupManager.failedCommentFormat}</textarea><br />
+
+			<p class="info">Example of a failed comment</p>
+
+			<pre class="section">
+				{dummyFailedComment}
 			</pre>
 
 			<input type="submit" name="submit" value="submit" />

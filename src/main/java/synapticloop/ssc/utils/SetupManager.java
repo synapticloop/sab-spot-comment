@@ -148,6 +148,7 @@ public class SetupManager {
 			if(null != newznabUrl) { properties.put("newznabUrl", newznabUrl); }
 			if(null != newznabApiKey) { properties.put("newznabApiKey", newznabApiKey); }
 			if(null != newznabErrorMessage) { properties.put("newznabErrorMessage", newznabErrorMessage); }
+
 			properties.put("lastCompletedTime", lastCompletedTime + "");
 			properties.put("numSuccessHours", numSuccessHours + "");
 			properties.put("numSuccessComments", numSuccessComments + "");

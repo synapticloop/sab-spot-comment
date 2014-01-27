@@ -8,7 +8,6 @@ import java.util.Map;
 import synapticloop.nanohttpd.router.Routable;
 import synapticloop.nanohttpd.utils.HttpUtils;
 import synapticloop.ssc.bean.Download;
-import synapticloop.ssc.utils.CommentMunger;
 import synapticloop.ssc.utils.SetupManager;
 import synapticloop.templar.Parser;
 import synapticloop.templar.exception.ParseException;
@@ -43,8 +42,8 @@ public class SabSpotCommentAdminServant extends Routable {
 
 		templarContext.add("setupManager", SetupManager.INSTANCE);
 
-		templarContext.add("dummySuccessComment", CommentMunger.mungeComment(new Download("Dummy Success Download", "SAB_NZB_ID", "", System.currentTimeMillis(), "GUID", false)));
-		templarContext.add("dummyFailedComment", CommentMunger.mungeComment(new Download("Dummy Failed Download", "SAB_NZB_ID", "Unpacking failed, archive requires a password", System.currentTimeMillis(), "GUID", false)));
+		templarContext.add("dummySuccessComment", new Download("Dummy Success Download", "SAB_NZB_ID", "", System.currentTimeMillis(), "GUID", false).getComment());
+		templarContext.add("dummyFailedComment", new Download("Dummy Failed Download", "SAB_NZB_ID", "Unpacking failed, archive requires a password", System.currentTimeMillis(), "GUID", false).getComment());
 
 		try {
 			Parser parser = new Parser(this.getClass().getResourceAsStream("/synapticloop/ssc/template/admin.templar"));

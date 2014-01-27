@@ -19,28 +19,30 @@
 	<h2>SabNzbd server - last download completed at {formattedDate}</h2>
 
 	<h3>Comments:</h3>
+
+
 	{loop downloads as download}
-		{if downloadStatus.first}
-			<ol>
-		{endif}
-		<li>
+		<pre class="
 			{if download.ignored}
-				No comment entered for '{download.name}' as it was not downloaded from your newznab url.
+				section
 			{else}
-				[SSC] 
-				{set fn:fmtDate[download.completedTime, 'yyyy-MM-dd HH:mm:ss z'] as formattedDate}
-				DOWNLOAD {if download.isFailed}FAILED{else}SUCCESS{endif} at {formattedDate}.<br />{if download.isFailed}Message was '{download.failMessage}'<br />{endif}
-				  Servers used: 
-				{loop setupManager.newznabServers as newznabServer}
-					{newznabServer}
-					{if !newznabServerStatus.last}, {endif}
-				{endloop}.
+				{if download.isFailed}
+					error
+				{else}
+					ok
+				{endif}
 			{endif}
-		</li>
-		{if downloadStatus.last}
-			</ol>
-		{endif}
+		">
+			{if download.ignored}
+				No comment entered for was posted for{\n}
+				'{download.name}'{\n}
+				as it was _not_ downloaded from your newznab url.
+			{else}
+				{download.comment}
+			{endif}
+		</pre>
 	{endloop}
+
 	<div id="footer">
 		<p>powered by: synapticloop - sabspotcomment - routemaster - nanohttpd</p>
 	</div>
