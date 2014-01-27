@@ -5,7 +5,7 @@
 	<link rel="stylesheet" href="/static/css/reset.css" />
 	<link rel="stylesheet" href="/static/css/style.css" />
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
-	<link rel="icon" href="/static/images/routemaster.png" type="image/png" />
+	<link rel="icon" href="/static/images/sabspotcomment.png" type="image/png" />
 	<meta http-equiv="refresh" content="0; url=/admin/" />
 </head>
 <body>
@@ -15,7 +15,6 @@
 	<p>
 		Please go to <a href="/admin/">/admin/</a> if you are not automatically re-directed.
 	</p>
-
 
 	<div id="footer">
 		<p>powered by: synapticloop - sabspotcomment - routemaster - nanohttpd</p>
