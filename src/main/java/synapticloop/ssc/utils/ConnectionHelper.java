@@ -53,8 +53,8 @@ public class ConnectionHelper {
 				stringBuilder.append(str);
 			}
 			connection.disconnect();
-		}catch(Exception e){
-			e.printStackTrace();
+		}catch(Exception ex){
+			System.out.println("FATAL (" + ConnectionHelper.class.getCanonicalName() + "), message was: " + ex.getMessage());
 		}
 		return(stringBuilder.toString());
 	}
