@@ -1,7 +1,9 @@
 Sab Spot Comment
 ================
 
-An automatic comment generator integrated with [newznab](http://www.newznab.com/) and [sabnzbd](http://sabnzbd.org/) servers.
+An automatic comment generator integrated with [newznab](http://www.newznab.com/) and [sabnzbd](http://sabnzbd.org/) servers.  This will automatically check you sabnzbd server for completed downloads (both failed and succeeded) and automatically comment on your newznab service with the results.
+
+There is an automatic check to ensure that the newsgroup does not get spammed with multiple of the same messages from sab spot comment from your newsgroup providers.  Comments are also not placed in the case that you grabbed the nzb from another source.
 
 ## easiest way to get the server up and running
 
@@ -36,3 +38,8 @@ To run the server:
 and point your browser to [http://localhost:5474/](http://localhost:5474/)
 
 This will create a file in your current working directory named ```sab-spot-comment.properties``` which will contain all of the settings.  It is not recommended to edit this file by hand, if you do, the server may not start, however every attempt has been made to ignore any 'fat-fingered' mistakes.
+
+
+## Need more information?
+
+See the wiki!
