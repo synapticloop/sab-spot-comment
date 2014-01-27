@@ -18,12 +18,19 @@
 	{set fn:fmtDate[setupManager.lastCompletedTime, 'yyyy-MM-dd HH:mm:ss z'] as formattedDate}
 	<h2>SabNzbd server - last download completed at {formattedDate}</h2>
 
+	{if setupManager.isDemo}
+		<p class="error"><strong>WARNING: you are running in demo mode</strong></p>
+	{else}
+		<p class="ok"><strong>sabspotcomment is live and serving up messages</strong></p>
+	{endif}
+
 	<h3>Comments:</h3>
 
 
 	{loop downloads as download}
+
 		<pre class="
-			{if download.ignored}
+			{if download.external}
 				section
 			{else}
 				{if download.isFailed}
@@ -33,13 +40,14 @@
 				{endif}
 			{endif}
 		">
-			{if download.ignored}
+			{if download.external}
 				No comment entered for was posted for{\n}
 				'{download.name}'{\n}
 				as it was _not_ downloaded from your newznab url.
 			{else}
 				{download.comment}
 			{endif}
+			{if download.committed}{\n}{\n}COMMITTED to newznab server{endif}
 		</pre>
 	{endloop}
 

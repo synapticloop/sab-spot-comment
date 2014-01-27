@@ -14,16 +14,17 @@ public class Download {
 	private long completedTime = 0l;
 	private boolean committed = false;
 	private String guid = null;
+	private boolean external = false;
 	private boolean ignored = false;
 	private String name = null;
 
-	public Download(String name, String sabNzbId, String failMessage, long completedTime, String guid, boolean ignored) {
+	public Download(String name, String sabNzbId, String failMessage, long completedTime, String guid, boolean external) {
 		this.name = name;
 		this.sabNzbId = sabNzbId;
 		this.failMessage = failMessage;
 		this.completedTime = completedTime;
 		this.guid = guid;
-		this.ignored = ignored;
+		this.external = external;
 	}
 
 	public String getSabNzbId() { return sabNzbId; }
@@ -32,31 +33,34 @@ public class Download {
 	public boolean getIsFailed() { return(null != failMessage && failMessage.length() > 0); }
 	public boolean getCommitted() { return committed; }
 	public String getGuid() { return guid; }
+	public boolean getExternal() { return external; }
+	public void setIgnored(boolean ignored) { this.ignored = ignored; }
 	public boolean getIgnored() { return ignored; }
 	public String getName() { return name; }
+
 	public String getComment() {
-			SetupManager setupManager = SetupManager.INSTANCE;
-			String format = null;
-			if(getIsFailed()) {
-				format = setupManager.getFailedCommentFormat();
-			} else {
-				format = setupManager.getSuccessCommentFormat();
-			}
+		SetupManager setupManager = SetupManager.INSTANCE;
+		String format = null;
+		if(getIsFailed()) {
+			format = setupManager.getFailedCommentFormat();
+		} else {
+			format = setupManager.getSuccessCommentFormat();
+		}
 
-			// now that we have the correct format
-			StringBuilder servers = new StringBuilder();
+		// now that we have the correct format
+		StringBuilder servers = new StringBuilder();
 
-			for (Iterator<String> iterator = setupManager.getNewznabServers().iterator(); iterator.hasNext(); ) {
-				String server = (String) iterator.next();
-				servers.append(server);
-				if(iterator.hasNext()) {
-					servers.append(", ");
-				}
+		for (Iterator<String> iterator = setupManager.getNewznabServers().iterator(); iterator.hasNext(); ) {
+			String server = (String) iterator.next();
+			servers.append(server);
+			if(iterator.hasNext()) {
+				servers.append(", ");
 			}
-			format = format.replaceAll("%DATE%", SIMPLE_DATE_FORMAT.format(new Date(completedTime)));
-			format = format.replaceAll("%MESSAGE%", failMessage);
-			format = format.replaceAll("%SERVERS%", servers.toString());
-			
-			return(format);
+		}
+		format = format.replaceAll("%DATE%", SIMPLE_DATE_FORMAT.format(new Date(completedTime)));
+		format = format.replaceAll("%MESSAGE%", failMessage);
+		format = format.replaceAll("%SERVERS%", servers.toString());
+
+		return(format);
 	}
 }
