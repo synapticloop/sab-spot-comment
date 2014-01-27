@@ -23,6 +23,8 @@
 
 		<h2>Server mode</h2>
 		<div class="section">
+			<p class="info"><strong>Whether you are ready to automatically post comments</strong></p>
+
 			{if setupManager.isDemo}
 				<p class="error"><strong>WARNING: you are running in demo mode</strong></p>
 			{else}

@@ -14,7 +14,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class SetupManager {
-	public final SetupManager INSTANCE = new SetupManager();
+	public final static SetupManager INSTANCE = new SetupManager();
 
 	private static final String SETUP_PROPERTIES = "sabspotcomment.properties";
 

@@ -60,21 +60,22 @@ public class SabSpotCommentAdminServant extends Routable {
 		
 		if(parms.containsKey("submit")) {
 			// some data has been submitted
-			SetupManager.setNewznabApiKey(parms.get("newznabApiKey"));
-			SetupManager.setNewznabUrl(parms.get("newznabUrl"));
-			SetupManager.setSabNzbApiKey(parms.get("sabNzbApiKey"));
-			SetupManager.setSabNzbUrl(parms.get("sabNzbUrl"));
-			SetupManager.setCommentFormat(parms.get("commentFormat"));
+			SetupManager setupManager = SetupManager.INSTANCE;
+			setupManager.setNewznabApiKey(parms.get("newznabApiKey"));
+			setupManager.setNewznabUrl(parms.get("newznabUrl"));
+			setupManager.setSabNzbApiKey(parms.get("sabNzbApiKey"));
+			setupManager.setSabNzbUrl(parms.get("sabNzbUrl"));
+			setupManager.setCommentFormat(parms.get("commentFormat"));
 
 			String numSuccessHoursString = parms.get("numSuccessHours");
-			try { SetupManager.setNumSuccessHours(Integer.parseInt(numSuccessHoursString)); } catch(NumberFormatException nfex) { }
+			try { setupManager.setNumSuccessHours(Integer.parseInt(numSuccessHoursString)); } catch(NumberFormatException nfex) { }
 			String numSuccessCommentsString = parms.get("numSuccessComments");
-			try { SetupManager.setNumSuccessComments(Integer.parseInt(numSuccessCommentsString)); } catch(NumberFormatException nfex) { }
+			try { setupManager.setNumSuccessComments(Integer.parseInt(numSuccessCommentsString)); } catch(NumberFormatException nfex) { }
 			String numFailureHoursString = parms.get("numFailureHours");
-			try { SetupManager.setNumFailureHours(Integer.parseInt(numFailureHoursString)); } catch(NumberFormatException nfex) { }
+			try { setupManager.setNumFailureHours(Integer.parseInt(numFailureHoursString)); } catch(NumberFormatException nfex) { }
 			String numFailureCommentsString = parms.get("numFailureComments");
-			try { SetupManager.setNumFailureComments(Integer.parseInt(numFailureCommentsString)); } catch(NumberFormatException nfex) { }
-			SetupManager.validate();
+			try { setupManager.setNumFailureComments(Integer.parseInt(numFailureCommentsString)); } catch(NumberFormatException nfex) { }
+			setupManager.validate();
 		}
 	}
 
