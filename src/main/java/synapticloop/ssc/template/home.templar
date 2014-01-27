@@ -19,7 +19,7 @@
 	<h2>SabNzbd server - last download completed at {formattedDate}</h2>
 
 	<h3>Comments:</h3>
-	{loop setupManager.downloads as download}
+	{loop downloads as download}
 		{if downloadStatus.first}
 			<ol>
 		{endif}
