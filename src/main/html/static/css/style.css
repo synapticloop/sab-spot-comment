@@ -50,8 +50,8 @@ ol li {
 }
 
 .code {
-	color: #999900;
-	border-bottom: 1px solid #999900;
+	color: #990;
+	border-bottom: 1px solid #990;
 }
 
 #footer {
@@ -61,8 +61,16 @@ ol li {
 	text-align: center;
 }
 
-error {
+.ok {
+	color: #ad0;
+}
+
+.error {
 	color: #f00;
+}
+
+.warn {
+	color: #f60;
 }
 
 ul.nav {
@@ -83,4 +91,9 @@ ul.nav li a {
 
 ul.nav li.current {
 	border-bottom: 3px solid #000;
+}
+
+.section {
+	border-left: 8px solid #efefef;
+	padding-left: 12px;
 }

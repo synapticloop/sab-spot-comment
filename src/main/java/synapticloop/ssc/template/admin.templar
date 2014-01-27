@@ -17,51 +17,62 @@
 
 	{if isSabNzbSetup}
 		{if isNewznabSetup}
-			<h2>SabSpotComment is setup and ready to go!</h2>
+			<h2 class="ok">SabSpotComment is setup and ready to go!</h2>
 		{endif}
-	{endif}
-	<h2>SabNzbd server</h2>
-
-	{if isSabNzbSetup}
-		<p>SabNzbd: Everything is looking good</p>
-	{else}
-		<p>SabNzbd: Could not connect, please check the values below:</p>
-	{endif}
-
-	{if fn:notNull[sabNzbErrorMessage]}
-		<p class="error">{sabNzbErrorMessage}</p>
 	{endif}
 
 	<form method="post">
-		SABNZB URL ------&gt;<input type="text" name="sabNzbUrl" id="sabNzbUrl" value="{sabNzbUrl}" /><br />
-		SABNZB API KEY --&gt;<input type="text" name="sabNzbApiKey" id="sabNzbApiKey" value="{sabNzbApiKey}" /><br />
+		<h2>SabNzbd server</h2>
 
-		<h3>SabNzbd registered news hosts:</h3>
-		{loop newznabServers as newznabServer}
-			{if newznabServerStatus.first}<ol>{endif}
-			<li>{newznabServer}</li>
-			{if newznabServerStatus.last}</ol>{endif}
-		{endloop}
+		<div class="section">
+			{if isSabNzbSetup}
+				<p class="ok">sabnzbd: Everything is looking good</p>
+			{else}
+				<p class="warn">sabnzbd: Could not connect, please check the values below:</p>
+			{endif}
+
+			{if fn:notNull[sabNzbErrorMessage]}
+				<p class="error">{sabNzbErrorMessage}</p>
+			{endif}
+
+			SABNZB URL ------&gt;<input type="text" name="sabNzbUrl" id="sabNzbUrl" value="{sabNzbUrl}" width="40"/><br />
+			SABNZB API KEY --&gt;<input type="text" name="sabNzbApiKey" id="sabNzbApiKey" value="{sabNzbApiKey}" /><br />
+
+			<h3>SabNzbd registered news hosts:</h3>
+			{loop newznabServers as newznabServer}
+				{if newznabServerStatus.first}<ol>{endif}
+				<li>{newznabServer}</li>
+				{if newznabServerStatus.last}</ol>{endif}
+			{endloop}
+		</div>
 
 		<h2>Newznab server</h2>
 
-		{if isNewznabSetup}
-			<p>newznab: Everything is looking good</p>
-		{else}
-			<p>newznab: Could not connect, please check the values below:</p>
-		{endif}
+		<div class="section">
+			{if isNewznabSetup}
+				<p class="ok">newznab: Everything is looking good</p>
+			{else}
+				<p class="warn">newznab: Could not connect, please check the values below:</p>
+			{endif}
 	
-	{if fn:notNull[newznabErrorMessage]}
-		<p class="error">{newznabErrorMessage}</p>
-	{endif}
+			{if fn:notNull[newznabErrorMessage]}
+				<p class="error">{newznabErrorMessage}</p>
+			{endif}
 
-		NEWZNAB URL -----&gt;<input type="text" name="newznabUrl" id="newznabUrl" value="{newznabUrl}" /><br />
-		NEWZNAB API KEY -&gt;<input type="text" name="newznabApiKey" id="newznabApiKey" value="{newznabApiKey}" /><br />
+			<p>Enter your newznab url, this should be of the form <em>https://newznab.example.com</em></p>
+			NEWZNAB URL -----&gt;<input type="text" name="newznabUrl" id="newznabUrl" value="{newznabUrl}" /><br />
+			<p>Enter your newznab api key.  Go to your user account and it will be listed under <em>Site Api/Rss Key</em></p>
+			NEWZNAB API KEY -&gt;<input type="text" name="newznabApiKey" id="newznabApiKey" value="{newznabApiKey}" /><br />
+		</div>
 
 		<h2>Timings</h2>
-		<p>Don't post a comment if any of the following conditions are true</p>
 
-		<input type="submit" name="submit" value="submit" />
+		<div class="section">
+
+			<p>Don't post a comment if any of the following conditions are true</p>
+
+			<input type="submit" name="submit" value="submit" />
+		</div>
 	</form>
 
 	<div id="footer">
