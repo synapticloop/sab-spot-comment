@@ -86,7 +86,7 @@ public class SetupManager {
 				}
 			} catch(JSONException josnex) {
 				// we should be receiving back json
-				sabNzbErrorMessage = "Expected JSON, got '" + content + "'";
+				sabNzbErrorMessage = "FATAL: Expected JSON, got '" + content + "'";
 				isSabNzbSetup = false;
 			}
 		}
@@ -100,7 +100,7 @@ public class SetupManager {
 				// see if we get back the config
 				JSONObject optJSONObject = jsonObject.optJSONObject("@attributes");
 				if(null == optJSONObject) {
-					newznabErrorMessage = "Expected JSON config, got '" + content + "'";
+					newznabErrorMessage = "FATAL: Expected JSON config, got '" + content + "'";
 					isNewznabSetup = false;
 				} else {
 					newznabErrorMessage = null;
@@ -108,7 +108,7 @@ public class SetupManager {
 				}
 			} catch(JSONException josnex) {
 				// we should be receiving back json
-				newznabErrorMessage = "Expected JSON, got '" + content.replaceAll("<", "&lt;").replaceAll(">", "&gt;") + "'";
+				newznabErrorMessage = "FATAL: Expected JSON, got '" + content.replaceAll("<", "&lt;").replaceAll(">", "&gt;") + "'";
 				isNewznabSetup = false;
 			}
 		}
