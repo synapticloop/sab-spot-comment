@@ -42,4 +42,4 @@ This will create a file in your current working directory named ```sab-spot-comm
 
 ## Need more information?
 
-See the wiki!
+[See the wiki!](https://github.com/synapticloop/sab-spot-comment/wiki)
