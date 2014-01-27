@@ -33,6 +33,12 @@ public class SetupManager {
 	private static String newznabApiKey = "";
 	private static String newznabErrorMessage = null;
 
+	// comment numbers/hours
+	private static int numSuccessHours = 4;
+	private static int numSuccessComments = 5;
+	private static int numFailureHours = 24;
+	private static int numFailureComments = 5;
+
 	static {
 		// load up the properties if they exist
 		try {
@@ -44,11 +50,17 @@ public class SetupManager {
 			newznabApiKey = properties.getProperty("newznabApiKey");
 			newznabErrorMessage = properties.getProperty("newznabErrorMessage");
 			String lastCompletedTimeString = properties.getProperty("lastCompletedTime");
-			try {
-				lastCompletedTime = Long.parseLong(lastCompletedTimeString);
-			} catch(NumberFormatException nfex) {
-				// do nothing
-			}
+			try { lastCompletedTime = Long.parseLong(lastCompletedTimeString); } catch(NumberFormatException nfex) { }
+
+			String numSuccessHoursString = properties.getProperty("numSuccessHours");
+			try {	numSuccessHours = Integer.parseInt(numSuccessHoursString); } catch(NumberFormatException nfex) { }
+			String numSuccessCommentsString = properties.getProperty("numSuccessComments");
+			try {	numSuccessComments = Integer.parseInt(numSuccessCommentsString); } catch(NumberFormatException nfex) { }
+			String numFailureHoursString = properties.getProperty("numFailureHours");
+			try {	numFailureHours = Integer.parseInt(numFailureHoursString); } catch(NumberFormatException nfex) { }
+			String numFailureCommentsString = properties.getProperty("numFailureComments");
+			try {	numFailureComments = Integer.parseInt(numFailureCommentsString); } catch(NumberFormatException nfex) { }
+
 			validate();
 		} catch (IOException ioex) {
 			// couldn't find the file - ignore
@@ -125,6 +137,10 @@ public class SetupManager {
 			if(null != newznabApiKey) { properties.put("newznabApiKey", newznabApiKey); }
 			if(null != newznabErrorMessage) { properties.put("newznabErrorMessage", newznabErrorMessage); }
 			properties.put("lastCompletedTime", lastCompletedTime + "");
+			properties.put("numSuccessHours", numSuccessHours + "");
+			properties.put("numSuccessComments", numSuccessComments + "");
+			properties.put("numFailureHours", numFailureHours + "");
+			properties.put("numFailureComments", numFailureComments + "");
 			properties.store(new FileOutputStream(new File(SETUP_PROPERTIES)), " --- sab spot comment properties file ---");
 		} catch (FileNotFoundException fnfex) {
 			fnfex.printStackTrace();
@@ -156,7 +172,17 @@ public class SetupManager {
 	public static long getLastCompletedTime() { return lastCompletedTime; }
 	public static void setLastCompletedTime(long lastCompletedTime) { SetupManager.lastCompletedTime = lastCompletedTime; }
 
+	public static void setNumSuccessHours(int numSuccessHours) { SetupManager.numSuccessHours = numSuccessHours;}
+	public static int getNumSuccessHours() { return(numSuccessHours); }
+	public static void setNumSuccessComments(int numSuccessComments) { SetupManager.numSuccessComments = numSuccessComments;}
+	public static int getNumSuccessComments() { return(numSuccessComments); }
+	public static void setNumFailureHours(int numFailureHours) { SetupManager.numFailureHours = numFailureHours;}
+	public static int getNumFailureHours() { return(numFailureHours); }
+	public static void setNumFailureComments(int numFailureComments) { SetupManager.numFailureComments = numFailureComments;}
+	public static int getNumFailureComments() { return(numFailureComments); }
+
 	public static ArrayList<String> getNewznabServers() { return(newznabServers); }
+
 
 	private static String cleanNull(String value) {
 		if(null == value) {

@@ -75,6 +75,18 @@
 
 			<p>Don't post a comment if any of the following conditions are true</p>
 
+			<p>Number of hours after original posting that a success comment won't be committed</p>
+			SUCCESS HOURS ---&gt;<input type="text" name="numSuccessHours" id="numSuccessHours" value="{numSuccessHours}" size="4" /><br />
+
+			<p>Number of success comments on the post that a success comment won't be committed</p>
+			SUCCESS NUMBER --&gt;<input type="text" name="numSuccessComments" id="numSuccessComments" value="{numSuccessComments}" size="4" /><br />
+
+			<p>Number of hours after original posting that a comment won't be committed</p>
+			FAILURE HOURS ---&gt;<input type="text" name="numFailureHours" id="numFailureHours" value="{numFailureHours}" size="4" /><br />
+
+			<p>Number of failure comments on the post that a comment won't be committed</p>
+			FAILURE NUMBER --&gt;<input type="text" name="numFailureComments" id="numFailureComments" value="{numFailureComments}" size="4" /><br />
+
 			<input type="submit" name="submit" value="submit" />
 		</div>
 	</form>

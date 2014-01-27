@@ -49,6 +49,11 @@ public class SabSpotCommentAdminServant extends Routable {
 		templarContext.add("isNewznabSetup", SetupManager.getIsNewznabSetup());
 		templarContext.add("newznabErrorMessage", SetupManager.getNewznabErrorMessage());
 
+		templarContext.add("numSuccessHours", SetupManager.getNumSuccessHours());
+		templarContext.add("numSuccessComments", SetupManager.getNumSuccessComments());
+		templarContext.add("numFailureHours", SetupManager.getNumFailureHours());
+		templarContext.add("numFailureComments", SetupManager.getNumFailureComments());
+
 		try {
 			Parser parser = new Parser(this.getClass().getResourceAsStream("/synapticloop/ssc/template/admin.templar"));
 			return(HttpUtils.okResponse(NanoHTTPD.MIME_HTML, parser.render(templarContext)));
@@ -73,6 +78,14 @@ public class SabSpotCommentAdminServant extends Routable {
 			SetupManager.setSabNzbApiKey(parms.get("sabNzbApiKey"));
 			SetupManager.setSabNzbUrl(parms.get("sabNzbUrl"));
 
+			String numSuccessHoursString = parms.get("numSuccessHours");
+			try { SetupManager.setNumSuccessHours(Integer.parseInt(numSuccessHoursString)); } catch(NumberFormatException nfex) { }
+			String numSuccessCommentsString = parms.get("numSuccessComments");
+			try { SetupManager.setNumSuccessComments(Integer.parseInt(numSuccessCommentsString)); } catch(NumberFormatException nfex) { }
+			String numFailureHoursString = parms.get("numFailureHours");
+			try { SetupManager.setNumFailureHours(Integer.parseInt(numFailureHoursString)); } catch(NumberFormatException nfex) { }
+			String numFailureCommentsString = parms.get("numFailureComments");
+			try { SetupManager.setNumFailureComments(Integer.parseInt(numFailureCommentsString)); } catch(NumberFormatException nfex) { }
 			SetupManager.validate();
 		}
 	}
