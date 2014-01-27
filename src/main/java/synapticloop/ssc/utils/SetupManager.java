@@ -62,8 +62,6 @@ public class SetupManager {
 		if(null != sabNzbUrl && null != sabNzbApiKey) {
 			// try and validate that we can connect with the values
 			String content = ConnectionHelper.getUrl(sabNzbUrl + "/api/?apikey=" + sabNzbApiKey + "&mode=get_config&output=json");
-			// TODO remove
-			System.out.println(content);
 
 			try {
 				JSONObject jsonObject = new JSONObject(content);
