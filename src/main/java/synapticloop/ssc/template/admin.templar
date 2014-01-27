@@ -25,6 +25,9 @@
 		<h2>SabNzbd server</h2>
 
 		<div class="section">
+
+			<p class="info"><strong>Your sabnzbd server information</strong></p>
+
 			{if isSabNzbSetup}
 				<p class="ok">sabnzbd: Everything is looking good</p>
 			{else}
@@ -53,6 +56,8 @@
 		<h2>Newznab server</h2>
 
 		<div class="section">
+			<p class="info"><strong>Your newznab server information</strong></p>
+
 			{if isNewznabSetup}
 				<p class="ok">newznab: Everything is looking good</p>
 			{else}
@@ -73,7 +78,7 @@
 
 		<div class="section">
 
-			<p>Don't post a comment if any of the following conditions are true</p>
+			<p class="info"><strong>Don't post a comment if any of the following conditions are true</strong></p>
 
 			<p>Number of hours after original posting that a success comment won't be committed</p>
 			SUCCESS HOURS ---&gt;<input type="text" name="numSuccessHours" id="numSuccessHours" value="{numSuccessHours}" size="4" /><br />

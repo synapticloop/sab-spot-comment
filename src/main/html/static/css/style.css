@@ -32,7 +32,7 @@ h2 {
 
 p {
 	margin-bottom: 7px;
-	padding-top: 12px;
+	padding: 6px 0;
 }
 em {
 	font-style: italic;
@@ -64,14 +64,27 @@ ol li {
 
 .ok {
 	color: #ad0;
+	border-left: 3px solid #ad0;
+	padding-left: 7px;
 }
 
 .error {
 	color: #f00;
+	border-left: 3px solid #f00;
+	padding-left: 7px;
 }
 
 .warn {
 	color: #f60;
+	border-left: 3px solid #f60;
+	padding-left: 7px;
+}
+
+.info {
+	color: #00688B;
+	border-left: 3px solid #00688B;
+	padding-left: 7px;
+	background-color: #ADD8E6;
 }
 
 ul.nav {
