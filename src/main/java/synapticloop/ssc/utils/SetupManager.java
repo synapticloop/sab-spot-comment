@@ -173,7 +173,7 @@ public class SetupManager {
 	public void setSabNzbUrl(String sabNzbUrl) { this.sabNzbUrl = cleanNull(sabNzbUrl); }
 	public String getSabNzbApiKey() { return cleanNull(sabNzbApiKey); }
 	public void setSabNzbApiKey(String sabNzbApiKey) { this.sabNzbApiKey = cleanNull(sabNzbApiKey); }
-	public String getSabNzbErrorMessage() { return cleanNull(sabNzbErrorMessage); }
+	public String getSabNzbErrorMessage() { return(sabNzbErrorMessage); }
 
 	// NEWZNAB setup stuff
 	public boolean getIsNewznabSetup() { return(isNewznabSetup); }
@@ -182,7 +182,7 @@ public class SetupManager {
 	public void setNewznabUrl(String newznabUrl) { this.newznabUrl = cleanNull(newznabUrl); }
 	public String getNewznabApiKey() { return cleanNull(newznabApiKey); }
 	public void setNewznabApiKey(String newznabApiKey) { this.newznabApiKey = cleanNull(newznabApiKey); }
-	public String getNewznabErrorMessage() { return cleanNull(newznabErrorMessage); }
+	public String getNewznabErrorMessage() { return(newznabErrorMessage); }
 
 	public long getLastCompletedTime() { return lastCompletedTime; }
 	public void setLastCompletedTime(long lastCompletedTime) { this.lastCompletedTime = lastCompletedTime; }
