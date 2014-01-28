@@ -20,6 +20,7 @@ public class SetupManager {
 
 	private Properties properties = new Properties();
 	private long lastCompletedTime = 0l;
+	private long lastLookupTime = 0l;
 	
 	private boolean isDemo = true;
 
@@ -63,6 +64,9 @@ public class SetupManager {
 
 			String lastCompletedTimeString = properties.getProperty("lastCompletedTime", "0");
 			try { lastCompletedTime = Long.parseLong(lastCompletedTimeString); } catch(NumberFormatException nfex) { }
+
+			String lastLookupTimeString = properties.getProperty("lastLookupTime", "0");
+			try { lastLookupTime = Long.parseLong(lastLookupTimeString); } catch(NumberFormatException nfex) { }
 
 			String numSuccessHoursString = properties.getProperty("numSuccessHours", "4");
 			try { numSuccessHours = Integer.parseInt(numSuccessHoursString); } catch(NumberFormatException nfex) { }
@@ -190,6 +194,9 @@ public class SetupManager {
 
 	public long getLastCompletedTime() { return lastCompletedTime; }
 	public void setLastCompletedTime(long lastCompletedTime) { this.lastCompletedTime = lastCompletedTime; }
+
+	public long getLastLookupTime() { return lastLookupTime; }
+	public void setLastLookupTime(long lastCompletedTime) { this.lastLookupTime = lastLookupTime; }
 
 	public void setNumSuccessHours(int numSuccessHours) { if(numSuccessHours >= 0) { this.numSuccessHours = numSuccessHours; } }
 	public int getNumSuccessHours() { return(numSuccessHours); }

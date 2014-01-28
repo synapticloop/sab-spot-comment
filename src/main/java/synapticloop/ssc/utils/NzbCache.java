@@ -46,53 +46,57 @@ public class NzbCache {
 
 	public void refreshCache() {
 		SetupManager setupManager = SetupManager.INSTANCE;
-		String content = ConnectionHelper.getUrl(setupManager.getSabNzbUrl() + "/api/?apikey=" + setupManager.getSabNzbApiKey() + "&mode=history&start=0&limit=20&output=json");
+		if(setupManager.getIsSetup()) {
+			String content = ConnectionHelper.getUrl(setupManager.getSabNzbUrl() + "/api/?apikey=" + setupManager.getSabNzbApiKey() + "&mode=history&start=0&limit=20&output=json");
 
-		long maxCompletedTime = 0l;
+			long maxCompletedTime = 0l;
 
-		try {
-			JSONObject jsonObject = new JSONObject(content);
-			JSONObject history = jsonObject.getJSONObject("history");
-			JSONArray slots = history.getJSONArray("slots");
-			for(int i = 0; i < slots.length(); i++) {
-				JSONObject slot = slots.getJSONObject(i);
+			try {
+				JSONObject jsonObject = new JSONObject(content);
+				JSONObject history = jsonObject.getJSONObject("history");
+				JSONArray slots = history.getJSONArray("slots");
+				for(int i = 0; i < slots.length(); i++) {
+					JSONObject slot = slots.getJSONObject(i);
 
-				String name = slot.getString("name");
-				String failMessage = slot.getString("fail_message");
-				long completedTime = slot.getLong("completed");
-				String sabNzbId = slot.getString("nzo_id");
-				String url = slot.getString("url").toLowerCase();
-				boolean external = true;
-				String guid = null;
+					String name = slot.getString("name");
+					String failMessage = slot.getString("fail_message");
+					long completedTime = slot.getLong("completed");
+					String sabNzbId = slot.getString("nzo_id");
+					String url = slot.getString("url").toLowerCase();
+					boolean external = true;
+					String guid = null;
 
-				if(url.startsWith(setupManager.getNewznabUrl().toLowerCase())) {
-					external = false;
-					// now grab the nzbid
-					int indexOfGetNzb = url.indexOf("/getnzb/") + "/getnzb/".length();
-					int indexOfDotNzb = url.indexOf(".nzb");
-					guid = url.substring(indexOfGetNzb, indexOfDotNzb);
+					if(url.startsWith(setupManager.getNewznabUrl().toLowerCase())) {
+						external = false;
+						// now grab the nzbid
+						int indexOfGetNzb = url.indexOf("/getnzb/") + "/getnzb/".length();
+						int indexOfDotNzb = url.indexOf(".nzb");
+						guid = url.substring(indexOfGetNzb, indexOfDotNzb);
+					}
+
+					if(!downloadedNzbIds.contains(sabNzbId) && completedTime > lastCompletedTime) {
+						downloadedNzbIds.put(sabNzbId, completedTime * 1000);
+						downloads.add(new Download(name, sabNzbId, failMessage, completedTime * 1000, guid, external));
+					}
+
+					if(completedTime > maxCompletedTime) {
+						maxCompletedTime = completedTime;
+					}
 				}
-
-				if(!downloadedNzbIds.contains(sabNzbId) && completedTime > lastCompletedTime) {
-					downloadedNzbIds.put(sabNzbId, completedTime * 1000);
-					downloads.add(new Download(name, sabNzbId, failMessage, completedTime * 1000, guid, external));
-				}
-
-				if(completedTime > maxCompletedTime) {
-					maxCompletedTime = completedTime;
-				}
+			} catch(JSONException jsonex) {
+				// TODO - do something
 			}
-		} catch(JSONException jsonex) {
-			// TODO - do something
-		}
 
-		// time to truncate the arraylist
-		for(int i = 20; i < downloads.size(); i++) {
-			downloads.remove(i);
-		}
+			// time to truncate the arraylist
+			for(int i = 20; i < downloads.size(); i++) {
+				downloads.remove(i);
+			}
+			// now is the hour to go and grab the comments
 
-		setupManager.setLastCompletedTime(maxCompletedTime * 1000);
-		saveProperties();
+
+			setupManager.setLastCompletedTime(maxCompletedTime * 1000);
+			saveProperties();
+		}
 	}
 
 	private void saveProperties() {

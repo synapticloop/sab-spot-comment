@@ -3,11 +3,14 @@ package synapticloop.ssc.servant;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import synapticloop.nanohttpd.router.RestRoutable;
 import synapticloop.nanohttpd.utils.HttpUtils;
 import synapticloop.ssc.utils.NzbCache;
 import synapticloop.ssc.utils.SetupManager;
+import synapticloop.ssc.timer.SabNzbTimer;
 import synapticloop.templar.Parser;
 import synapticloop.templar.exception.ParseException;
 import synapticloop.templar.exception.RenderException;
@@ -17,8 +20,18 @@ import fi.iki.elonen.NanoHTTPD.IHTTPSession;
 import fi.iki.elonen.NanoHTTPD.Response;
 
 public class SabSpotCommentServant extends RestRoutable {
+	private static Timer timer = null;
+
 	public SabSpotCommentServant(String routeContext, ArrayList<String> params) {
 		super(routeContext, params);
+		if(null == timer) {
+			synchronized(this) {
+				if(null == timer) {
+					timer = new Timer();
+					timer.schedule(new SabNzbTimer(), 0, 1000);
+				}
+			}
+		}
 	}
 
 	@Override
