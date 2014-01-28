@@ -26,12 +26,8 @@ public class SabSpotCommentServer {
 
 		// now set up the timer
 		if(null == timer) {
-			synchronized(SabSpotCommentServer.class) {
-				if(null == timer) {
-					timer = new Timer();
-					timer.schedule(new SabNzbTimer(), 0, NUM_MILLIS_THREAD);
-				}
-			}
+			timer = new Timer();
+			timer.schedule(new SabNzbTimer(), 0, NUM_MILLIS_THREAD);
 		}
 
 		RouteMasterServer.main(args);
