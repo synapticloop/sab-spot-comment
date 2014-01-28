@@ -8,10 +8,13 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Properties;
+import java.util.HashMap;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import synapticloop.nanohttpd.utils.SimpleLogger;
 
 public class SetupManager {
 	public final static SetupManager INSTANCE = new SetupManager();
@@ -77,6 +80,11 @@ public class SetupManager {
 			String numFailureCommentsString = properties.getProperty("numFailureComments", "5");
 			try { numFailureComments = Integer.parseInt(numFailureCommentsString); } catch(NumberFormatException nfex) { }
 
+			HashMap map = new HashMap();
+			for (final String name: properties.stringPropertyNames()) {
+		    map.put(name, properties.getProperty(name).replaceAll("\\n", "\\\\n"));
+			}
+			SimpleLogger.logTable(map, "SabSpotComment Server", "property", "value");
 			validate();
 		} catch (IOException ioex) {
 			// couldn't find the file - ignore
