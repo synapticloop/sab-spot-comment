@@ -78,10 +78,14 @@ public class NzbCache {
 						int indexOfGetNzb = url.indexOf("/getnzb/") + "/getnzb/".length();
 						int indexOfDotNzb = url.indexOf(".nzb");
 						guid = url.substring(indexOfGetNzb, indexOfDotNzb);
-						LOGGER.info("Found newznab nzb with guid:" + guid);
 					}
 
-					if(!downloadedNzbIds.contains(sabNzbId) && completedTime > lastCompletedTime) {
+					if(!downloadedNzbIds.containsKey(sabNzbId)) {
+						if(external) {
+							LOGGER.info("Skipping external sabnzbid '" + sabNzbId + "'.");
+						} else {
+							LOGGER.info("Found new sabnzbid '" + sabNzbId + "' with guid:" + guid);
+						}
 						downloadedNzbIds.put(sabNzbId, completedTime * 1000);
 						downloads.add(new Download(name, sabNzbId, failMessage, completedTime * 1000, guid, external));
 					}
