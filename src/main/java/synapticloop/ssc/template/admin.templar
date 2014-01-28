@@ -22,8 +22,10 @@
 	<form method="post">
 
 		<h2>Server mode</h2>
+
+		<p class="info"><strong>Whether you are ready to automatically post comments</strong></p>
+
 		<div class="section">
-			<p class="info"><strong>Whether you are ready to automatically post comments</strong></p>
 
 			{if setupManager.isDemo}
 				<p class="error"><strong>WARNING: you are running in demo mode</strong></p>
@@ -37,9 +39,9 @@
 
 		<h2>SabNzbd server</h2>
 
-		<div class="section">
+		<p class="info"><strong>Your sabnzbd server information</strong></p>
 
-			<p class="info"><strong>Your sabnzbd server information</strong></p>
+		<div class="section">
 
 			{if setupManager.isSabNzbSetup}
 				<p class="ok">sabnzbd: Everything is looking good</p>
@@ -68,8 +70,9 @@
 
 		<h2>Newznab server</h2>
 
+		<p class="info"><strong>Your newznab server information</strong></p>
+
 		<div class="section">
-			<p class="info"><strong>Your newznab server information</strong></p>
 
 			{if setupManager.isNewznabSetup}
 				<p class="ok">newznab: Everything is looking good</p>
@@ -89,9 +92,9 @@
 
 		<h2>Timings</h2>
 
-		<div class="section">
+		<p class="info"><strong>Don't post a comment if any of the following conditions are true</strong></p>
 
-			<p class="info"><strong>Don't post a comment if any of the following conditions are true</strong></p>
+		<div class="section">
 
 			<p>Number of hours after original posting that a success comment won't be committed</p>
 			SUCCESS HOURS ---&gt;<input type="text" name="numSuccessHours" id="numSuccessHours" value="{setupManager.numSuccessHours}" size="4" /><br />
@@ -109,9 +112,9 @@
 
 		<h2>Comment format</h2>
 
-		<div class="section">
+		<p class="info"><strong>The format for the comment that is posted</strong></p>
 
-			<p class="info"><strong>The format for the comment that is posted</strong></p>
+		<div class="section">
 
 			<p>
 				The default success comment format is:

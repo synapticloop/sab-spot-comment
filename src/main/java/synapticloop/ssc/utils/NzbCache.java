@@ -17,14 +17,16 @@ import org.json.JSONObject;
 import synapticloop.ssc.bean.Download;
 
 public class NzbCache {
-	public static NzbCache INSTANCE = new NzbCache();
 	private static final String NZB_CACHE_PROPERTIES = "nzbcache.properties";
+	private static final Logger LOGGER = Logger.getLogger(NzbCache.class);
+	public static NzbCache INSTANCE = new NzbCache();
 
 	private ConcurrentHashMap<String, Long> downloadedNzbIds = new ConcurrentHashMap<String, Long>();
 	private long lastCompletedTime = 0l;
 	private ArrayList<Download> downloads = new ArrayList<Download>();
 
 	private NzbCache() {
+		LOGGER.info("Cache initialising...");
 		Properties properties = new Properties();
 		try {
 			properties.load(new FileInputStream(new File(NZB_CACHE_PROPERTIES)));
@@ -38,13 +40,17 @@ public class NzbCache {
 					// do nothing
 				}
 				downloadedNzbIds.put(key, timeDownloaded);
+				LOGGER.info("Added to cache " + key + "@" + timeDownloaded);
 			}
 		} catch (IOException ioex) {
 			// couldn't find the file - ignore
+			LOGGER.info("No cache properties found.");
 		}
+		LOGGER.info("Cache initialised...");
 	}
 
 	public void refreshCache() {
+		LOGGER.info("Cache refreshing...");
 		SetupManager setupManager = SetupManager.INSTANCE;
 		if(setupManager.getIsSetup()) {
 			String content = ConnectionHelper.getUrl(setupManager.getSabNzbUrl() + "/api/?apikey=" + setupManager.getSabNzbApiKey() + "&mode=history&start=0&limit=20&output=json");
@@ -72,6 +78,7 @@ public class NzbCache {
 						int indexOfGetNzb = url.indexOf("/getnzb/") + "/getnzb/".length();
 						int indexOfDotNzb = url.indexOf(".nzb");
 						guid = url.substring(indexOfGetNzb, indexOfDotNzb);
+						LOGGER.info("Found newznab nzb with guid:" + guid);
 					}
 
 					if(!downloadedNzbIds.contains(sabNzbId) && completedTime > lastCompletedTime) {
@@ -84,7 +91,7 @@ public class NzbCache {
 					}
 				}
 			} catch(JSONException jsonex) {
-				// TODO - do something
+				LOGGER.fatal("Exception parsing JSON, message was: '" + jsonex.getMessage() + "'.");
 			}
 
 			// time to truncate the arraylist
@@ -94,6 +101,7 @@ public class NzbCache {
 			// now is the hour to go and grab the comments
 
 
+			LOGGER.info("Cache refreshed...");
 			setupManager.setLastCompletedTime(maxCompletedTime * 1000);
 			saveProperties();
 		}

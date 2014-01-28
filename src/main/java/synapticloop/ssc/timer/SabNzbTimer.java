@@ -4,30 +4,33 @@ import synapticloop.ssc.utils.SetupManager;
 import java.io.IOException;
 import java.util.Properties;
 import java.util.TimerTask;
+import synapticloop.ssc.utils.Logger;
+import synapticloop.ssc.utils.NzbCache;
 
 public class SabNzbTimer extends TimerTask {
 	private Properties properties = null;
 	private long lastLookupTime = 0;
+	private static Logger logger = Logger.getLogger(SabNzbTimer.class);
 
 	public SabNzbTimer() {
-		System.out.println("SabNzbTimer started...");
+		logger.info("SabNzbTimer starting...");
 	}
 
 	public void run() {
 		SetupManager setupManager = SetupManager.INSTANCE;
 		if(setupManager.getIsSetup()) {
-			long currentTimeMillis = System.currentTimeMillis();
-			if(lastLookupTime < currentTimeMillis) {
-				lastLookupTime = currentTimeMillis;
-			}
+			logger.info("Cache refreshing...");
+			NzbCache nzbCache = NzbCache.INSTANCE;
+			nzbCache.refreshCache();
+			logger.info("Cache refreshed...");
 		} else {
-			System.out.println("WARN: not setup");
+			logger.warn("SetupManager not setup");
 		}
 		// now connect to sabnzbd
 	}
 
 	public boolean cancel() {
-		System.out.println("SabNzbTimer shutting down...");
+		logger.info("SabNzbTimer shutting down...");
 		return super.cancel();
 	}
 

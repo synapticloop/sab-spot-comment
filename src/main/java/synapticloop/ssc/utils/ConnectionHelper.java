@@ -11,8 +11,11 @@ import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSession;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
+import synapticloop.ssc.utils.Logger;
 
 public class ConnectionHelper {
+	private static Logger logger = Logger.getLogger(ConnectionHelper.class);
+
 	static {
 		// Create a trust manager that does not validate certificate chains
 		TrustManager[] trustAllCerts = new TrustManager[] {
@@ -54,7 +57,7 @@ public class ConnectionHelper {
 			}
 			connection.disconnect();
 		}catch(Exception ex){
-			System.out.println("FATAL (" + ConnectionHelper.class.getCanonicalName() + "), message was: " + ex.getMessage());
+			logger.fatal(ex.getMessage());
 		}
 		return(stringBuilder.toString());
 	}
