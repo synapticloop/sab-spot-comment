@@ -152,13 +152,9 @@ public class NzbCache {
 
 		if(null == itemsArray) {
 			// if we have no comments - we want to add one
+			LOGGER.info("Commenting on " + download.getGuid() + " (" + download.getName() +") - no comments added.");
 			return(true);
 		} 
-
-		if(itemsArray.length() > setupManager.getNumMaxComments()) {
-			// too many comments - ignore this one
-			return(false);
-		}
 
 		// go through and figure out whether we have SSC comments on the thread
 		int numSuccessComments = 0;
@@ -202,9 +198,15 @@ public class NzbCache {
 		// if there hasn't been a comment in the last 'setupManager.getNumLastCommentDays()' 
 		// number of days - then we will post it, irrespective of anything else
 
-		if(maxTime + (setupManager.getNumLastCommentDays() * 24 * 60 * 60 * 1000) < System.currentTimeMillis()) {
+		if(maxTime != 0 && (maxTime + (setupManager.getNumLastCommentDays() * 24 * 60 * 60 * 1000) < System.currentTimeMillis())) {
 			LOGGER.info("Commenting on " + download.getGuid() + " (" + download.getName() +") - as the last comment was more than " + setupManager.getNumLastCommentDays() + " days ago.");
 			return(true);
+		}
+
+		// if there are too many comments - skip it
+		if(itemsArray.length() > setupManager.getNumMaxComments()) {
+			LOGGER.info("Not commenting on " + download.getGuid() + " (" + download.getName() +") - more than " + setupManager.getNumMaxComments() + " comments found.");
+			return(false);
 		}
 
 		// how may SSC failed comments do we have?
