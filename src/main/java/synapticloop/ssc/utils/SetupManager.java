@@ -6,9 +6,9 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Properties;
-import java.util.HashMap;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -43,15 +43,16 @@ public class SetupManager {
 	private String newznabErrorMessage = null;
 
 	// comment numbers/hours
-	private int numSuccessHours = 4;
+	private int numMaxComments = 20;
 	private int numSuccessComments = 5;
-	private int numFailureHours = 24;
 	private int numFailureComments = 5;
+	private int numLastCommentDays = 30;
 
 	// comment format
-	private String failedCommentFormat = "[SSC] DOWNLOAD FAILED at %DATE%.\nMessage was'%MESSAGE%'\nServers used: %SERVERS%";
-	private String successCommentFormat = "[SSC] DOWNLOAD SUCCESS at %DATE%.\nServers used: %SERVERS%";
+	private String failedCommentFormat = "DOWNLOAD FAILED at %DATE%.\nMessage was'%MESSAGE%'\nServers used: %SERVERS%";
+	private String successCommentFormat = "DOWNLOAD SUCCESS at %DATE%.\nServers used: %SERVERS%";
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private SetupManager() {
 		// load up the properties if they exist
 		try {
@@ -65,24 +66,28 @@ public class SetupManager {
 			failedCommentFormat = properties.getProperty("failedCommentFormat", failedCommentFormat);
 			successCommentFormat = properties.getProperty("successCommentFormat", successCommentFormat);
 
+
 			String lastCompletedTimeString = properties.getProperty("lastCompletedTime", "0");
 			try { lastCompletedTime = Long.parseLong(lastCompletedTimeString); } catch(NumberFormatException nfex) { }
 
 			String lastLookupTimeString = properties.getProperty("lastLookupTime", "0");
 			try { lastLookupTime = Long.parseLong(lastLookupTimeString); } catch(NumberFormatException nfex) { }
 
-			String numSuccessHoursString = properties.getProperty("numSuccessHours", "4");
-			try { numSuccessHours = Integer.parseInt(numSuccessHoursString); } catch(NumberFormatException nfex) { }
+			String numMaxCommentsString = properties.getProperty("numMaxComments", "20");
+			try { numMaxComments = Integer.parseInt(numMaxCommentsString); } catch(NumberFormatException nfex) { }
+
+			String numLastCommentDaysString = properties.getProperty("numLastCommentDays", "30");
+			try { numLastCommentDays = Integer.parseInt(numLastCommentDaysString); } catch(NumberFormatException nfex) { }
+
 			String numSuccessCommentsString = properties.getProperty("numSuccessComments", "5");
 			try { numSuccessComments = Integer.parseInt(numSuccessCommentsString); } catch(NumberFormatException nfex) { }
-			String numFailureHoursString = properties.getProperty("numFailureHours", "24");
-			try { numFailureHours = Integer.parseInt(numFailureHoursString); } catch(NumberFormatException nfex) { }
+
 			String numFailureCommentsString = properties.getProperty("numFailureComments", "5");
 			try { numFailureComments = Integer.parseInt(numFailureCommentsString); } catch(NumberFormatException nfex) { }
 
 			HashMap map = new HashMap();
 			for (final String name: properties.stringPropertyNames()) {
-		    map.put(name, properties.getProperty(name).replaceAll("\\n", "\\\\n"));
+				map.put(name, properties.getProperty(name).replaceAll("\\n", "\\\\n"));
 			}
 			SimpleLogger.logTable(map, "SabSpotComment Server", "property", "value");
 			validate();
@@ -162,10 +167,10 @@ public class SetupManager {
 			if(null != newznabErrorMessage) { properties.put("newznabErrorMessage", newznabErrorMessage); }
 
 			properties.put("lastCompletedTime", lastCompletedTime + "");
-			properties.put("numSuccessHours", numSuccessHours + "");
+			properties.put("numMaxComments", numMaxComments + "");
 			properties.put("numSuccessComments", numSuccessComments + "");
-			properties.put("numFailureHours", numFailureHours + "");
 			properties.put("numFailureComments", numFailureComments + "");
+			properties.put("numLastCommentDays", numLastCommentDays + "");
 			properties.put("failedCommentFormat", failedCommentFormat);
 			properties.put("successCommentFormat", successCommentFormat);
 
@@ -204,14 +209,16 @@ public class SetupManager {
 	public void setLastCompletedTime(long lastCompletedTime) { this.lastCompletedTime = lastCompletedTime; }
 
 	public long getLastLookupTime() { return lastLookupTime; }
-	public void setLastLookupTime(long lastCompletedTime) { this.lastLookupTime = lastLookupTime; }
+	public void setLastLookupTime(long lastLookupTime) { this.lastLookupTime = lastLookupTime; }
 
-	public void setNumSuccessHours(int numSuccessHours) { if(numSuccessHours >= 0) { this.numSuccessHours = numSuccessHours; } }
-	public int getNumSuccessHours() { return(numSuccessHours); }
+	
+	public void setNumLastCommentDays(int numLastCommentDays) { if(numLastCommentDays >= 0) { this.numLastCommentDays = numLastCommentDays; } }
+	public int getNumLastCommentDays() { return(numLastCommentDays); }
+
+	public void setNumMaxComments(int numMaxComments) { if(numMaxComments >= 0) { this.numMaxComments = numMaxComments; } }
+	public int getNumMaxComments() { return(numMaxComments); }
 	public void setNumSuccessComments(int numSuccessComments) { if(numSuccessComments >= 0) { this.numSuccessComments = numSuccessComments; } }
 	public int getNumSuccessComments() { return(numSuccessComments); }
-	public void setNumFailureHours(int numFailureHours) { if(numFailureHours >= 0) { this.numFailureHours = numFailureHours; } }
-	public int getNumFailureHours() { return(numFailureHours); }
 	public void setNumFailureComments(int numFailureComments) { if(numFailureComments >= 0) { this.numFailureComments = numFailureComments; } }
 	public int getNumFailureComments() { return(numFailureComments); }
 

@@ -42,8 +42,9 @@ public class SabSpotCommentAdminServant extends Routable {
 
 		templarContext.add("setupManager", SetupManager.INSTANCE);
 
-		templarContext.add("dummySuccessComment", new Download("Dummy Success Download", "SAB_NZB_ID", "", System.currentTimeMillis(), "GUID", false).getComment());
-		templarContext.add("dummyFailedComment", new Download("Dummy Failed Download", "SAB_NZB_ID", "Unpacking failed, archive requires a password", System.currentTimeMillis(), "GUID", false).getComment());
+		templarContext.add("dummySuccessComment", new Download("Dummy Success Download", "http://www.example.com/", "SAB_NZB_ID", "", System.currentTimeMillis(), "GUID", false).getComment());
+		templarContext.add("dummyFailedComment", new Download("Dummy Failed Download", "http://www.example.com/", "SAB_NZB_ID", "Unpacking failed, archive requires a password", System.currentTimeMillis(), "GUID", false).getComment());
+		templarContext.add("dummyIgnoredDownload", new Download("Dummy Ignored Download", "http://www.example.com/", "SAB_NZB_ID", "Unpacking failed, archive requires a password", System.currentTimeMillis(), "GUID", true));
 
 		try {
 			Parser parser = new Parser(this.getClass().getResourceAsStream("/synapticloop/ssc/template/admin.templar"));
@@ -72,12 +73,10 @@ public class SabSpotCommentAdminServant extends Routable {
 			setupManager.setFailedCommentFormat(parms.get("failedCommentFormat"));
 			setupManager.setSuccessCommentFormat(parms.get("successCommentFormat"));
 
-			String numSuccessHoursString = parms.get("numSuccessHours");
-			try { setupManager.setNumSuccessHours(Integer.parseInt(numSuccessHoursString)); } catch(NumberFormatException nfex) { }
+			String numLastCommentDaysString = parms.get("numLastCommentDays");
+			try { setupManager.setNumLastCommentDays(Integer.parseInt(numLastCommentDaysString)); } catch(NumberFormatException nfex) { }
 			String numSuccessCommentsString = parms.get("numSuccessComments");
 			try { setupManager.setNumSuccessComments(Integer.parseInt(numSuccessCommentsString)); } catch(NumberFormatException nfex) { }
-			String numFailureHoursString = parms.get("numFailureHours");
-			try { setupManager.setNumFailureHours(Integer.parseInt(numFailureHoursString)); } catch(NumberFormatException nfex) { }
 			String numFailureCommentsString = parms.get("numFailureComments");
 			try { setupManager.setNumFailureComments(Integer.parseInt(numFailureCommentsString)); } catch(NumberFormatException nfex) { }
 			setupManager.validate();

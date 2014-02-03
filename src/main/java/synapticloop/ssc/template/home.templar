@@ -41,9 +41,10 @@
 			{if download.external}
 				No comment entered for was posted for{\n}
 				'{download.name}'{\n}
-				as it was _not_ downloaded from your newznab url.
+				as it was _not_ grabbed from your newznab url, it was grabbed from{\n}
+				'{download.url}'.
 			{else}
-				{download.comment}
+				{download.guid}::{download.comment}
 			{endif}
 			{if download.committed}{\n}{\n}COMMITTED to newznab server{endif}
 		</pre>

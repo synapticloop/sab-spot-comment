@@ -5,6 +5,10 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.Properties;
@@ -17,13 +21,15 @@ import org.json.JSONObject;
 import synapticloop.ssc.bean.Download;
 
 public class NzbCache {
+	private static final String SSC_F = "[SSC-F] ";
+	private static final String SSC_T = "[SSC-T] ";
 	private static final String NZB_CACHE_PROPERTIES = "nzbcache.properties";
 	private static final Logger LOGGER = Logger.getLogger(NzbCache.class);
 	public static NzbCache INSTANCE = new NzbCache();
 
 	private ConcurrentHashMap<String, Long> downloadedNzbIds = new ConcurrentHashMap<String, Long>();
-	private long lastCompletedTime = 0l;
 	private ArrayList<Download> downloads = new ArrayList<Download>();
+	private static final SimpleDateFormat SIMPLE_DATE_FORMAT = new SimpleDateFormat("E, d MM, yyyy hh:mm:ss Z");
 
 	private NzbCache() {
 		LOGGER.info("Cache initialising...");
@@ -87,7 +93,7 @@ public class NzbCache {
 							LOGGER.info("Found new sabnzbid '" + sabNzbId + "' with guid:" + guid);
 						}
 						downloadedNzbIds.put(sabNzbId, completedTime * 1000);
-						downloads.add(new Download(name, sabNzbId, failMessage, completedTime * 1000, guid, external));
+						downloads.add(new Download(name, url, sabNzbId, failMessage, completedTime * 1000, guid, external));
 					}
 
 					if(completedTime > maxCompletedTime) {
@@ -102,15 +108,128 @@ public class NzbCache {
 			for(int i = 20; i < downloads.size(); i++) {
 				downloads.remove(i);
 			}
+
 			// now is the hour to go and grab the comments
 
+			for (Download download : downloads) {
+				if(!download.getExternal() && !download.getCommitted()) {
+					String urlString = setupManager.getNewznabUrl() + "/api?apikey=" + setupManager.getNewznabApiKey() + "&t=comments&o=json&id=" + download.getGuid();
+
+					try {
+						JSONObject comments = new JSONObject(ConnectionHelper.getUrl(urlString));
+
+						JSONObject channelObject = comments.getJSONObject("channel");
+						JSONArray itemsArray = channelObject.optJSONArray("item");
+						if(shouldComment(setupManager, itemsArray, download)) {
+							String sscMessage = SSC_T;
+							if(download.getIsFailed()) {
+								sscMessage = SSC_F;
+							}
+							String commentAddString = setupManager.getNewznabUrl() + "/api?apikey=" + setupManager.getNewznabApiKey() + "&t=commentadd&o=json&id=" + download.getGuid() + "&text=" + URLEncoder.encode(sscMessage + download.getComment(), "UTF-8");
+							ConnectionHelper.getUrl(commentAddString);
+							LOGGER.info("Committed message for " + download.getGuid() + " (" + download.getName() + ")");
+						}
+					} catch(JSONException jsonex) {
+						LOGGER.fatal(jsonex.getMessage());
+					} catch (UnsupportedEncodingException ueex) {
+						LOGGER.fatal(ueex.getMessage());
+					} finally {
+						download.setCommitted(true);
+					}
+				}
+			}
 
 			LOGGER.info("Cache refreshed...");
 			setupManager.setLastCompletedTime(maxCompletedTime * 1000);
 			saveProperties();
 		}
 	}
+	private boolean shouldComment(SetupManager setupManager, JSONArray itemsArray, Download download) {
+		String sscMessage = SSC_T;
+		if(download.getIsFailed()) {
+			sscMessage = SSC_F;
+		}
 
+		if(null == itemsArray) {
+			// if we have no comments - we want to add one
+			return(true);
+		} 
+
+		if(itemsArray.length() > setupManager.getNumMaxComments()) {
+			// too many comments - ignore this one
+			return(false);
+		}
+
+		// go through and figure out whether we have SSC comments on the thread
+		int numSuccessComments = 0;
+		int numFailedComments = 0;
+		long maxTime = 0;
+
+		for(int i = 0; i < itemsArray.length(); i++) {
+			JSONObject item = itemsArray.getJSONObject(i);
+			String comment = item.optString("description");
+			// are there any ssc failed/success comments?
+			if(null != comment) {
+				// strip out all whitespace characters which can wreak havoc depending 
+				// on encoding of newlines etc.
+				if(comment.replaceAll("\\s+","").compareTo((sscMessage + download.getComment()).replaceAll("\\s+","")) == 0) {
+					// we have an identical message - we don't want to re-comment
+					LOGGER.info("Not commenting on " + download.getGuid() + " (" + download.getName() +") - identical comment found.");
+					return(false);
+				}
+
+				if(comment.startsWith(SSC_F)) {
+					numFailedComments++;
+				} else if(comment.startsWith(SSC_T)) {
+					numSuccessComments++;
+				}
+			}
+
+			// what about the pubdate?
+			String pubDate = item.optString("pubDate");
+			if(null != pubDate) {
+				try {
+					long time = SIMPLE_DATE_FORMAT.parse(pubDate).getTime();
+					if(time > maxTime) {
+						maxTime = time;
+					}
+				} catch (ParseException pex) {
+					// do nothing
+				}
+			}
+		}
+
+		// if there hasn't been a comment in the last 'setupManager.getNumLastCommentDays()' 
+		// number of days - then we will post it, irrespective of anything else
+
+		if(maxTime + (setupManager.getNumLastCommentDays() * 24 * 60 * 60 * 1000) < System.currentTimeMillis()) {
+			LOGGER.info("Commenting on " + download.getGuid() + " (" + download.getName() +") - as the last comment was more than " + setupManager.getNumLastCommentDays() + " days ago.");
+			return(true);
+		}
+
+		// how may SSC failed comments do we have?
+		if(download.getIsFailed() && numFailedComments >= setupManager.getNumFailureComments()) {
+			LOGGER.info("Not commenting on " + download.getGuid() + " (" + download.getName() +") - already have enough failed comments.");
+			return(false);
+		}
+
+		// how may SSC success comments do we have?
+		if(!download.getIsFailed() && numSuccessComments >= setupManager.getNumSuccessComments()) {
+			LOGGER.info("Not commenting on " + download.getGuid() + " (" + download.getName() +") - already have enough success comments.");
+			return(false);
+		}
+
+		// how many comments do we have
+		if(itemsArray.length() >= setupManager.getNumMaxComments()) {
+			// too many comments on this thread - ignore
+			LOGGER.info("Not commenting on " + download.getGuid() + " (" + download.getName() +") - too many comments in this thread.");
+			return(false);
+		}
+
+		LOGGER.info("Commenting on " + download.getGuid() + " (" + download.getName() +") - falling through.");
+		// at this point 
+		return(true);
+	}
 	private void saveProperties() {
 		Properties properties = new Properties();
 		Enumeration<String> keys = downloadedNzbIds.keys();

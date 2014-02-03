@@ -96,17 +96,22 @@
 
 		<div class="section">
 
-			<p>Number of hours after original posting that a success comment won't be committed</p>
-			SUCCESS HOURS ---&gt;<input type="text" name="numSuccessHours" id="numSuccessHours" value="{setupManager.numSuccessHours}" size="4" /><br />
+			<p>Maximum number of comments allowed for any one post</p>
+			MAX COMMENTS ---&gt;<input type="text" name="numMaxComments" id="numMaxComments" value="{setupManager.numMaxComments}" size="4" /><br />
 
-			<p>Number of success comments on the post that a success comment won't be committed</p>
+			<p>Number of sab spot success comments on the post that a success comment won't be committed</p>
 			SUCCESS NUMBER --&gt;<input type="text" name="numSuccessComments" id="numSuccessComments" value="{setupManager.numSuccessComments}" size="4" /><br />
 
-			<p>Number of hours after original posting that a comment won't be committed</p>
-			FAILURE HOURS ---&gt;<input type="text" name="numFailureHours" id="numFailureHours" value="{setupManager.numFailureHours}" size="4" /><br />
-
-			<p>Number of failure comments on the post that a comment won't be committed</p>
+			<p>Number of sab spot failure comments on the post that a comment won't be committed</p>
 			FAILURE NUMBER --&gt;<input type="text" name="numFailureComments" id="numFailureComments" value="{setupManager.numFailureComments}" size="4" /><br />
+
+			<p>
+				Number of days since last message post.  If the last message is greater 
+				than this number of days, a comment will be added, irrespective of the 
+				number of comments.  This is useful when downloading an NZB that is 
+				very old.
+			</p>
+			LAST COMMENT DAYS --&gt;<input type="text" name="numLastCommentDays" id="numLastCommentDays" value="{setupManager.numLastCommentDays}" size="4" /><br />
 
 		</div>
 
@@ -121,7 +126,7 @@
 			</p>
 
 			<pre class="section">
-				[SSC] DOWNLOAD SUCCESS at %DATE%.{\n}
+				DOWNLOAD SUCCESS at %DATE%.{\n}
 				Servers used: %SERVERS%
 			</pre>
 
@@ -130,7 +135,7 @@
 			</p>
 
 			<pre class="section">
-				[SSC] DOWNLOAD FAILED at %DATE%.{\n}
+				DOWNLOAD FAILED at %DATE%.{\n}
 				Message was '%MESSAGE%'{\n}
 				Servers used: %SERVERS%
 			</pre>
@@ -148,22 +153,31 @@
 					<dd>The servers that are registered with sabnzbd</dd>
 			</dl>
 
-			SUCCESS FORMAT --&gt;<br />
+			<p class="info">SUCCESS FORMAT</p>
 			<textarea name="successCommentFormat" id="successCommentFormat" rows="4" cols="50">{setupManager.successCommentFormat}</textarea><br />
 
-			<p class="info">Example of a success comment</p>
+
+			<p>Example:</p>
 
 			<pre class="section">
 				{dummySuccessComment}
 			</pre>
 
-			FAILED FORMAT --&gt;<br />
+			<p class="info">FAILED FORMAT</p>
 			<textarea name="failedCommentFormat" id="failedCommentFormat" rows="4" cols="50">{setupManager.failedCommentFormat}</textarea><br />
 
-			<p class="info">Example of a failed comment</p>
-
+			<p>Example:</p>
 			<pre class="section">
 				{dummyFailedComment}
+			</pre>
+
+			<p class="info">IGNORED</p>
+
+			<pre class="section">
+				No comment entered for was posted for{\n}
+				'{dummyIgnoredDownload.name}'{\n}
+				as it was _not_ grabbed from your newznab url, it was grabbed from{\n}
+				'{dummyIgnoredDownload.url}'.
 			</pre>
 
 			<input type="submit" name="submit" value="submit" />
