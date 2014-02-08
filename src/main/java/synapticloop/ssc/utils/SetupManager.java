@@ -65,6 +65,7 @@ public class SetupManager {
 			newznabErrorMessage = properties.getProperty("newznabErrorMessage", newznabErrorMessage);
 			failedCommentFormat = properties.getProperty("failedCommentFormat", failedCommentFormat);
 			successCommentFormat = properties.getProperty("successCommentFormat", successCommentFormat);
+			isDemo = properties.getProperty("isDemo", "true").equalsIgnoreCase("true");
 
 
 			String lastCompletedTimeString = properties.getProperty("lastCompletedTime", "0");
@@ -173,6 +174,7 @@ public class SetupManager {
 			properties.put("numLastCommentDays", numLastCommentDays + "");
 			properties.put("failedCommentFormat", failedCommentFormat);
 			properties.put("successCommentFormat", successCommentFormat);
+			properties.put("isDemo", isDemo + "");
 
 			properties.store(new FileOutputStream(new File(SETUP_PROPERTIES)), " --- sab spot comment properties file ---");
 		} catch (FileNotFoundException fnfex) {

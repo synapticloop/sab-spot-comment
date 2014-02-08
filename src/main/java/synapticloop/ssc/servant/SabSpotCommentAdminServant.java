@@ -73,6 +73,8 @@ public class SabSpotCommentAdminServant extends Routable {
 			setupManager.setFailedCommentFormat(parms.get("failedCommentFormat"));
 			setupManager.setSuccessCommentFormat(parms.get("successCommentFormat"));
 
+			setupManager.setIsDemo(parms.get("isDemo").equalsIgnoreCase("true"));
+
 			String numLastCommentDaysString = parms.get("numLastCommentDays");
 			try { setupManager.setNumLastCommentDays(Integer.parseInt(numLastCommentDaysString)); } catch(NumberFormatException nfex) { }
 			String numSuccessCommentsString = parms.get("numSuccessComments");

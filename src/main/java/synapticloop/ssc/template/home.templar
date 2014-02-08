@@ -44,10 +44,14 @@
 				as it was _not_ grabbed from your newznab url, it was grabbed from{\n}
 				'{download.url}'.
 			{else}
-				{download.guid}::{download.comment}
+				{download.comment}
 			{endif}
-			{if download.committed}{\n}{\n}COMMITTED to newznab server{endif}
 		</pre>
+		{if download.committed}
+			<p>COMMITTED to newznab server</p>
+			<p>[{download.guid}] {download.name}</p>
+		{endif}
+		<hr />
 	{endloop}
 
 	<div id="footer">
