@@ -29,5 +29,4 @@ public class SabNzbTimer extends TimerTask {
 		logger.info("SabNzbTimer shutting down...");
 		return super.cancel();
 	}
-
 }
