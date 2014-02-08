@@ -106,10 +106,10 @@ public class NzbCache {
 							maxCompletedTime = completedTime;
 						}
 					} catch(JSONException jsonex) {
-						LOGGER.fatal("Exception parsing JSON, message was: '" + jsonex.getMessage() + "' for slot: '" + slot + "'.");
 						// so that we don't get the same message every cache refresh - put it
 						// in the downloaded cache.
-						if(null != sabNzbId) {
+						if(null != sabNzbId && !downloadedNzbIds.containsKey(sabNzbId)) {
+							LOGGER.fatal("Exception parsing JSON, message was: '" + jsonex.getMessage() + "' for slot: '" + slot + "'.");
 							downloadedNzbIds.put(sabNzbId, completedTime * 1000);
 						}
 					}
