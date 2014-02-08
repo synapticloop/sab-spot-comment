@@ -71,13 +71,15 @@ public class NzbCache {
 				// run through all of the history (slots) is JSON parlance
 				for(int i = 0; i < slots.length(); i++) {
 					JSONObject slot = null;
+					String sabNzbId = null;
+					long completedTime = System.currentTimeMillis();
 					try {
 						slot = slots.getJSONObject(i);
 
 						String name = slot.getString("name");
 						String failMessage = slot.getString("fail_message");
-						long completedTime = slot.getLong("completed");
-						String sabNzbId = slot.getString("nzo_id");
+						completedTime = slot.getLong("completed");
+						sabNzbId = slot.getString("nzo_id");
 						String url = slot.getString("url").toLowerCase();
 						boolean external = true;
 						String guid = null;
@@ -105,6 +107,11 @@ public class NzbCache {
 						}
 					} catch(JSONException jsonex) {
 						LOGGER.fatal("Exception parsing JSON, message was: '" + jsonex.getMessage() + "' for slot: '" + slot + "'.");
+						// so that we don't get the same message every cache refresh - put it
+						// in the downloaded cache.
+						if(null != sabNzbId) {
+							downloadedNzbIds.put(sabNzbId, completedTime * 1000);
+						}
 					}
 				}
 			} catch(JSONException jsonex) {
