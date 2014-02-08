@@ -29,91 +29,79 @@
 				<section id="main-content">
 
 
-					<h3><a name="welcome" class="anchor" href="#welcome"><span class="octicon octicon-link"></span></a>Welcome to sab spot comment</h3>
+					<h3><a name="admin" class="anchor" href="#admin"><span class="octicon octicon-link"></span></a>Administration options</h3>
 
 <p>
-	Don't you wish that there was a way to help out the community by automatically
-	commenting on nzb articles as to whether they were successfully downloaded or
-	not?
+	Although there are a quite a few options, the only ones that you need to change
+	are:
+</p>
+
+<ul>
+	<li>Server mode,</li>
+	<li>SabNzbd server,</li>
+	<li>Newznab server</li>
+</ul>
+
+<img src="images/custom/administration-screen.png" />
+
+<h3><a name="server-mode" class="anchor" href="#server-mode"><span class="octicon octicon-link"></span></a>Server mode</h3>
+
+<p>
+	There are only two options here - either LIVE or DEMO.
 </p>
 
 <p>
-	Wish no more...
+	LIVE mode will start posting comments immediately, DEMO mode will show you
+	what comments would have been created.
 </p>
 
-<img src="images/custom/home-screen.png" />
-
-<h3>
-<a name="sab-spot-comment" class="anchor" href="#sab-spot-comment"><span class="octicon octicon-link"></span></a>sab-spot-comment to the rescue</h3>
+<h3><a name="sabnzbd-server" class="anchor" href="#sabnzbd-server"><span class="octicon octicon-link"></span></a>SabNzbd server</h3>
 
 <p>
-	By linking your:
+	[SABNZB URL] Enter the URL to your sabnzbd server, this should be in the form of
+</p>
+<pre><code>http://your.server.name:9095</code></pre>
+
+<p>
+	[SABNZB API KEY] Enter you sabnzbd api key, this can be found at
 </p>
 
+<pre><code>http://your.server.name:9095/sabnzbd/config/general/</code></pre>
+
+<p>
+	In the section 'API Key'.  Note that you may have to click on the button 'Generate New Key'
+	if one oesn't exist.
+</p>
 <ul>
 	<li>sabnzbd installation, and</li>
 	<li>newznab host</li>
 </ul>
 
+<h3><a name="newznab-server" class="anchor" href="#newznab-server"><span class="octicon octicon-link"></span></a>Newznab server</h3>
+
 <p>
-	You can automatically let the community know whether you had success for any or
-	all of your downloads from your usenet servers.
+	[NEWZNAB URL] Enter the url to your newznab based server, this should be of
+	the form
 </p>
 
-<h3><a name="getting-up-and-running" class="anchor" href="#getting-up-and-running"><span class="octicon octicon-link"></span></a>Getting up and Running</h3>
+<pre><code>https://news.server.name.com/</code></pre>
 
 <p>
-	You should be up and running in no time at all!
-</p>
-
-<h4>Requirements</h4>
-
-<ul>
-	<li>Java</li>
-</ul>
-
-<h4>Running</h4>
-
-<p>
-	Download the <a href="https://github.com/synapticloop/sab-spot-comment/raw/master/dist/sab-spot-comment.jar">sab-spot-comment.jar</a>
-	file.
-</p>
-
-<p>
-	On some operating systems you should be able to just double-click the jar file 
-	and all will be good, however, you may need to do the following:
-</p>
-
-<ol>
-	<li>Open a console</li>
-	<li>Change to the directory where you downloaded the jar file</li>
-	<li>run the following command</li>
-</ol>
-
-<pre><code>java -jar sab-spot-comment.jar</code></pre>
-
-<p>
-	Open <a href="http://localhost:5474/">http://localhost:5474/</a>
-</p>
-
-<p>
-	At this point in time, you should be redirected to the administration page.
-</p>
-
-<p>
-	Just fill in the details and away you go.
+	[NEWZNAB API KEY] Enter your newznab api key. Go to your user account and it will be listed under Site Api/Rss Key
 </p>
 
 
-<h3><a name="having-troubles" class="anchor" href="#having-troubles"><span class="octicon octicon-link"></span></a>Having troubles?</h3>
+<h3><a name="thats-it" class="anchor" href="#thats-it"><span class="octicon octicon-link"></span></a>That's it</h3>
 
 <p>
-	Perhaps you want to look at the <a href="admin.html">Administration</a> page.
+	Click on the submit button at the bottom of the page - and you should be ready
+	to go.
 </p>
 
 <p>
-	If you have found a bug - perhaps you want to log it on the <a href="https://github.com/synapticloop/sab-spot-comment/issues">issues tracker</a>
+	If you want to tweak more options - see details on the <a href="admin-more.html">more admin page</a>.
 </p>
+
 				</section>
 
 				<aside id="sidebar">
