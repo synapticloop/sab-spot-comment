@@ -145,6 +145,11 @@ public class NzbCache {
 		}
 	}
 	private boolean shouldComment(SetupManager setupManager, JSONArray itemsArray, Download download) {
+		if(setupManager.getIsDemo()) {
+			LOGGER.info("Not commenting on " + download.getGuid() + " (" + download.getName() +") - as we are in demo mode.");
+			return(false);
+		}
+
 		String sscMessage = SSC_T;
 		if(download.getIsFailed()) {
 			sscMessage = SSC_F;
