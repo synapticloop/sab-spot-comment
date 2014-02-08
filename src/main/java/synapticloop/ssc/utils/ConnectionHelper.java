@@ -41,7 +41,7 @@ public class ConnectionHelper {
 		HttpsURLConnection.setDefaultHostnameVerifier(allHostsValid);
 	}
 
-	public static String getUrl(String urlString) {
+	public static String getUrlContentsAsString(String urlString) {
 		StringBuilder stringBuilder = new StringBuilder();
 		try{
 			URL url = new URL(urlString);

@@ -3,8 +3,6 @@ package synapticloop.ssc.servant;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import synapticloop.nanohttpd.router.RestRoutable;
 import synapticloop.nanohttpd.utils.HttpUtils;
@@ -45,7 +43,7 @@ public class SabSpotCommentServant extends RestRoutable {
 			// set up and ready to go
 
 			NzbCache nzbCache = NzbCache.INSTANCE;
-			nzbCache.refreshCache();
+//			nzbCache.refreshCache();
 
 			TemplarContext templarContext = new TemplarContext();
 			templarContext.add("downloads", nzbCache.getDownloads());

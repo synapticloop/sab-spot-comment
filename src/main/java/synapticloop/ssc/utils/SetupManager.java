@@ -103,7 +103,7 @@ public class SetupManager {
 
 		if(null != sabNzbUrl && null != sabNzbApiKey) {
 			// try and validate that we can connect with the values
-			String content = ConnectionHelper.getUrl(sabNzbUrl + "/api/?apikey=" + sabNzbApiKey + "&mode=get_config&output=json");
+			String content = ConnectionHelper.getUrlContentsAsString(sabNzbUrl + "/api/?apikey=" + sabNzbApiKey + "&mode=get_config&output=json");
 
 			try {
 				JSONObject jsonObject = new JSONObject(content);
@@ -136,7 +136,7 @@ public class SetupManager {
 		// now for the newznab
 		if(null != newznabUrl && null != newznabApiKey) {
 			// try and validate the newznab settings
-			String content = ConnectionHelper.getUrl(newznabUrl + "/api/?t=search&o=json&apikey=" + newznabApiKey);
+			String content = ConnectionHelper.getUrlContentsAsString(newznabUrl + "/api/?t=search&o=json&apikey=" + newznabApiKey);
 			try {
 				JSONObject jsonObject = new JSONObject(content);
 				// see if we get back the config

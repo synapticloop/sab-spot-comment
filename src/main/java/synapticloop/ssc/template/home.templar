@@ -27,31 +27,37 @@
 	<h3>Comments:</h3>
 
 	{loop downloads as download}
-		<pre class="
+		<div class="comment">
 			{if download.external}
-				section
-			{else}
-				{if download.isFailed}
-					error
+				<p>NOT COMMITTED to newznab server</p>
+				<p>{download.name}</p>
+				<p>
+					was _not_ grabbed from your newznab url, it was grabbed 
+					from '{download.url}'
+				</p>
+			{endif}
+			{if download.committed}
+				<p>COMMITTED to newznab server</p>
+				<p>[{download.guid}] {download.name}</p>
+			{endif}
+
+			<pre class="
+				{if download.external}
+					section
 				{else}
-					ok
+					{if download.isFailed}
+						error
+					{else}
+						ok
+					{endif}
 				{endif}
-			{endif}
-		">
-			{if download.external}
-				No comment entered for was posted for{\n}
-				'{download.name}'{\n}
-				as it was _not_ grabbed from your newznab url, it was grabbed from{\n}
-				'{download.url}'.
-			{else}
-				{download.comment}
-			{endif}
-		</pre>
-		{if download.committed}
-			<p>COMMITTED to newznab server</p>
-			<p>[{download.guid}] {download.name}</p>
-		{endif}
-		<hr />
+			">
+				{if download.external}
+				{else}
+					{download.comment}
+				{endif}
+			</pre>
+		</div>
 	{endloop}
 
 	<div id="footer">

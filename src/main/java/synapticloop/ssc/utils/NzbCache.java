@@ -59,7 +59,7 @@ public class NzbCache {
 		LOGGER.info("Cache refreshing...");
 		SetupManager setupManager = SetupManager.INSTANCE;
 		if(setupManager.getIsSetup()) {
-			String content = ConnectionHelper.getUrl(setupManager.getSabNzbUrl() + "/api/?apikey=" + setupManager.getSabNzbApiKey() + "&mode=history&start=0&limit=20&output=json");
+			String content = ConnectionHelper.getUrlContentsAsString(setupManager.getSabNzbUrl() + "/api/?apikey=" + setupManager.getSabNzbApiKey() + "&mode=history&start=0&limit=20&output=json");
 
 			long maxCompletedTime = 0l;
 
@@ -67,37 +67,44 @@ public class NzbCache {
 				JSONObject jsonObject = new JSONObject(content);
 				JSONObject history = jsonObject.getJSONObject("history");
 				JSONArray slots = history.getJSONArray("slots");
+
+				// run through all of the history (slots) is JSON parlance
 				for(int i = 0; i < slots.length(); i++) {
-					JSONObject slot = slots.getJSONObject(i);
+					JSONObject slot = null;
+					try {
+						slot = slots.getJSONObject(i);
 
-					String name = slot.getString("name");
-					String failMessage = slot.getString("fail_message");
-					long completedTime = slot.getLong("completed");
-					String sabNzbId = slot.getString("nzo_id");
-					String url = slot.getString("url").toLowerCase();
-					boolean external = true;
-					String guid = null;
-
-					if(url.startsWith(setupManager.getNewznabUrl().toLowerCase())) {
-						external = false;
-						// now grab the nzbid
-						int indexOfGetNzb = url.indexOf("/getnzb/") + "/getnzb/".length();
-						int indexOfDotNzb = url.indexOf(".nzb");
-						guid = url.substring(indexOfGetNzb, indexOfDotNzb);
-					}
-
-					if(!downloadedNzbIds.containsKey(sabNzbId)) {
-						if(external) {
-							LOGGER.info("Skipping external sabnzbid '" + sabNzbId + "'.");
-						} else {
-							LOGGER.info("Found new sabnzbid '" + sabNzbId + "' with guid:" + guid);
+						String name = slot.getString("name");
+						String failMessage = slot.getString("fail_message");
+						long completedTime = slot.getLong("completed");
+						String sabNzbId = slot.getString("nzo_id");
+						String url = slot.getString("url").toLowerCase();
+						boolean external = true;
+						String guid = null;
+	
+						if(url.startsWith(setupManager.getNewznabUrl().toLowerCase())) {
+							external = false;
+							// now grab the nzbid
+							int indexOfGetNzb = url.indexOf("/getnzb/") + "/getnzb/".length();
+							int indexOfDotNzb = url.indexOf(".nzb");
+							guid = url.substring(indexOfGetNzb, indexOfDotNzb);
 						}
-						downloadedNzbIds.put(sabNzbId, completedTime * 1000);
-						downloads.add(new Download(name, url, sabNzbId, failMessage, completedTime * 1000, guid, external));
-					}
-
-					if(completedTime > maxCompletedTime) {
-						maxCompletedTime = completedTime;
+	
+						if(!downloadedNzbIds.containsKey(sabNzbId)) {
+							if(external) {
+								LOGGER.info("Skipping external sabnzbid '" + sabNzbId + "'.");
+							} else {
+								LOGGER.info("Found new sabnzbid '" + sabNzbId + "' with guid:" + guid);
+							}
+							downloadedNzbIds.put(sabNzbId, completedTime * 1000);
+							downloads.add(new Download(name, url, sabNzbId, failMessage, completedTime * 1000, guid, external));
+						}
+	
+						if(completedTime > maxCompletedTime) {
+							maxCompletedTime = completedTime;
+						}
+					} catch(JSONException jsonex) {
+						LOGGER.fatal("Exception parsing JSON, message was: '" + jsonex.getMessage() + "' for slot: '" + slot + "'.");
 					}
 				}
 			} catch(JSONException jsonex) {
@@ -116,7 +123,8 @@ public class NzbCache {
 					String urlString = setupManager.getNewznabUrl() + "/api?apikey=" + setupManager.getNewznabApiKey() + "&t=comments&o=json&id=" + download.getGuid();
 
 					try {
-						JSONObject comments = new JSONObject(ConnectionHelper.getUrl(urlString));
+						String urlContentsAsString = ConnectionHelper.getUrlContentsAsString(urlString);
+						JSONObject comments = new JSONObject(urlContentsAsString);
 
 						JSONObject channelObject = comments.getJSONObject("channel");
 						JSONArray itemsArray = channelObject.optJSONArray("item");
@@ -126,11 +134,12 @@ public class NzbCache {
 								sscMessage = SSC_F;
 							}
 							String commentAddString = setupManager.getNewznabUrl() + "/api?apikey=" + setupManager.getNewznabApiKey() + "&t=commentadd&o=json&id=" + download.getGuid() + "&text=" + URLEncoder.encode(sscMessage + download.getComment(), "UTF-8");
-							ConnectionHelper.getUrl(commentAddString);
+							ConnectionHelper.getUrlContentsAsString(commentAddString);
 							LOGGER.info("Committed message for " + download.getGuid() + " (" + download.getName() + ")");
 						}
 					} catch(JSONException jsonex) {
 						LOGGER.fatal(jsonex.getMessage());
+						jsonex.printStackTrace();
 					} catch (UnsupportedEncodingException ueex) {
 						LOGGER.fatal(ueex.getMessage());
 					} finally {
@@ -146,7 +155,7 @@ public class NzbCache {
 	}
 	private boolean shouldComment(SetupManager setupManager, JSONArray itemsArray, Download download) {
 		if(setupManager.getIsDemo()) {
-			LOGGER.info("Not commenting on " + download.getGuid() + " (" + download.getName() +") - as we are in demo mode.");
+			LOGGER.info("Not commenting on " + download.getGuid() + " (" + download.getName() +") - [WE ARE IN DEMO MODE].");
 			return(false);
 		}
 
@@ -157,7 +166,7 @@ public class NzbCache {
 
 		if(null == itemsArray) {
 			// if we have no comments - we want to add one
-			LOGGER.info("Commenting on " + download.getGuid() + " (" + download.getName() +") - no comments added.");
+			LOGGER.info("Commenting on " + download.getGuid() + " (" + download.getName() +") - [FOUND 0 COMMENTS].");
 			return(true);
 		} 
 
@@ -175,7 +184,7 @@ public class NzbCache {
 				// on encoding of newlines etc.
 				if(comment.replaceAll("\\s+","").compareTo((sscMessage + download.getComment()).replaceAll("\\s+","")) == 0) {
 					// we have an identical message - we don't want to re-comment
-					LOGGER.info("Not commenting on " + download.getGuid() + " (" + download.getName() +") - identical comment found.");
+					LOGGER.info("Not commenting on " + download.getGuid() + " (" + download.getName() +") - [IDENTICAL COMMENT FOUND].");
 					return(false);
 				}
 
