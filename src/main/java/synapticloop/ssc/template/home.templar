@@ -24,7 +24,7 @@
 		<p class="ok"><strong>sabspotcomment is live and serving up messages</strong></p>
 	{endif}
 
-	<h3>Comments:</h3>
+	<h3>Comments found:</h3>
 
 	{loop downloads as download}
 		<div class="comment">

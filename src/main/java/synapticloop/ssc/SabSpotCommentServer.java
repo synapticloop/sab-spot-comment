@@ -20,7 +20,8 @@ public class SabSpotCommentServer {
 		// now set up the timer
 		if(null == timer) {
 			timer = new Timer();
-			timer.schedule(new SabNzbTimer(), 0, NUM_MILLIS_THREAD);
+			// kick off the timer in 5 seconds
+			timer.schedule(new SabNzbTimer(), 1000*5, NUM_MILLIS_THREAD);
 		}
 
 		RouteMasterServer.main(args);

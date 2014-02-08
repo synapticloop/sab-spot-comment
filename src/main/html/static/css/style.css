@@ -142,20 +142,20 @@ ul.nav li.current {
 }
 
 dl {
-    padding: 0.5em;
+	padding: 0.5em;
 }
 
 dt {
-  font-weight: bold;
-  color: green;
+	font-weight: bold;
+	color: green;
 }
 dt:after {
-  content: ":";
+	content: ":";
 }
 
 dd {
-  margin: 0 0 0 20px;
-  padding: 0 0 0.5em 0;
+	margin: 0 0 0 20px;
+	padding: 0 0 0.5em 0;
 }
 
 pre {
