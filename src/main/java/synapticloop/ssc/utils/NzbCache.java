@@ -267,7 +267,8 @@ public class NzbCache {
 			fnfex.printStackTrace();
 		} catch (IOException ioex) {
 			ioex.printStackTrace();
-		}		
+		}
 	}
+
 	public ArrayList<Download> getDownloads() { return(downloads); }
 }

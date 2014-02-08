@@ -31,11 +31,9 @@ public class SabSpotCommentServant extends RestRoutable {
 				Parser parser = new Parser(this.getClass().getResourceAsStream("/synapticloop/ssc/template/not-setup.templar"));
 				return(HttpUtils.okResponse(NanoHTTPD.MIME_HTML, parser.render(templarContext)));
 			} catch (ParseException pex) {
-				// TODO Auto-generated catch block
 				pex.printStackTrace();
 				return(null);
 			} catch (RenderException rex) {
-				// TODO Auto-generated catch block
 				rex.printStackTrace();
 				return(null);
 			}
@@ -43,7 +41,6 @@ public class SabSpotCommentServant extends RestRoutable {
 			// set up and ready to go
 
 			NzbCache nzbCache = NzbCache.INSTANCE;
-//			nzbCache.refreshCache();
 
 			TemplarContext templarContext = new TemplarContext();
 			templarContext.add("downloads", nzbCache.getDownloads());
@@ -53,11 +50,9 @@ public class SabSpotCommentServant extends RestRoutable {
 				Parser parser = new Parser(this.getClass().getResourceAsStream("/synapticloop/ssc/template/home.templar"));
 				return(HttpUtils.okResponse(NanoHTTPD.MIME_HTML, parser.render(templarContext)));
 			} catch (ParseException pex) {
-				// TODO Auto-generated catch block
 				pex.printStackTrace();
 				return(null);
 			} catch (RenderException rex) {
-				// TODO Auto-generated catch block
 				rex.printStackTrace();
 				return(null);
 			}

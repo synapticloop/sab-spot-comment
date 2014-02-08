@@ -8,10 +8,12 @@ public class Logger {
 	private static final int MAX_CLASSNAME_LENGTH = 24;
 	private String className = null;
 
+	@SuppressWarnings("rawtypes")
 	public static Logger getLogger(Class clazz) {
 		return(new Logger(clazz));
 	}
 
+	@SuppressWarnings("rawtypes")
 	private Logger(Class clazz) {
 		String canonicalName = clazz.getCanonicalName();
 		int length = canonicalName.length();
