@@ -171,8 +171,23 @@ pre.ok {
 
 div.comment {
 	border-bottom: 1px solid #adadad;
+	height: 120px;
 }
 
 div.comment pre {
-	margin: 8px 34px;
+	margin: 8px 34px 8px 61px;
+}
+
+p.dl {
+	font-size: 99px;
+	float: left;
+	width: 60px;
+}
+
+p.failed {
+	color: #f00;
+}
+
+p.success {
+	color: green;
 }

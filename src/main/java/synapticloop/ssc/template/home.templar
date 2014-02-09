@@ -24,10 +24,21 @@
 		<p class="ok"><strong>sabspotcomment is live and serving up messages</strong></p>
 	{endif}
 
-	<h3>Comments found:</h3>
+	{set fn:length[downloads] as numDownloads}
+	<h3>Last {numDownloads} comments shown:</h3>
 
 	{loop downloads as download}
 		<div class="comment">
+			{if download.external}
+				<p class="dl external">&raquo;</p>
+			{else}
+				{if download.isFailed}
+					<p class="dl failed">&raquo;</p>
+				{else}
+					<p class="dl success">&raquo;</p>
+				{endif}
+			{endif}
+
 			{if download.external}
 				<p>NOT COMMITTED to newznab server</p>
 				<p>{download.name}</p>
