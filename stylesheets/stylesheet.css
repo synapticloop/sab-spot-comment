@@ -55,7 +55,7 @@ body {
   font-weight: 400;
   color: #666;
 }
-
+.inner a, .inner a:hover { color: rgb(102, 102, 102); }
 a {
   color: #2879d0;
 }
